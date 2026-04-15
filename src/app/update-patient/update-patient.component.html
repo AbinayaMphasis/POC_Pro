@@ -18,48 +18,198 @@
     <hr>
     <hr>
   <h3>Update Patient</h3>
-  <form (ngSubmit) = "onSubmit()">
+  <form [formGroup]="patientForm">
     <div class="form-group">
       <label>ID</label>
-      <input type="number" class="form-control" id="id" [(ngModel)]="patient.id" name="id" >
+      <input type="number" class="form-control" formControlName="id" readonly>
     </div>
 
     <div class="form-group">
-      <label>Name</label>
-      <input type="text" class="form-control" name="name" [(ngModel)]="patient.name" name="name" >
+      <label>Case Type</label>
+      <input type="text" class="form-control" formControlName="caseType" readonly>
     </div>
 
     <div class="form-group">
-      <label>Age</label>
-      <input type="text" class="form-control" name="age" [(ngModel)]="patient.age" name="age" >
+      <label>Selected Drug</label>
+      <input type="text" class="form-control" formControlName="selectedDrugId" readonly>
     </div>
 
-    <div class="form-group">
-      <label>Blood Type</label>
-      <input type="text" class="form-control" name="blood" [(ngModel)]="patient.blood" name="blood" >
+    <!-- Patient Information -->
+    <h5 class="mt-3">Patient Information</h5>
+    <div formGroupName="patientInfo">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" class="form-control" formControlName="firstName">
+        <div *ngIf="patientForm.get('patientInfo.firstName')?.invalid && (patientForm.get('patientInfo.firstName')?.dirty || patientForm.get('patientInfo.firstName')?.touched)" class="text-danger">
+          <small *ngIf="patientForm.get('patientInfo.firstName')?.errors?.['required']">First name is required.</small>
+          <small *ngIf="patientForm.get('patientInfo.firstName')?.errors?.['pattern']">Enter a valid name (letters and spaces only, 2-50 characters).</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName">
+        <div *ngIf="patientForm.get('patientInfo.lastName')?.invalid && (patientForm.get('patientInfo.lastName')?.dirty || patientForm.get('patientInfo.lastName')?.touched)" class="text-danger">
+          <small *ngIf="patientForm.get('patientInfo.lastName')?.errors?.['required']">Last name is required.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="text" class="form-control" formControlName="dateOfBirth">
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <input type="text" class="form-control" formControlName="gender">
+      </div>
+
+      <div class="form-group">
+        <label>Contact Number</label>
+        <input type="text" class="form-control" formControlName="contactNumber">
+        <div *ngIf="patientForm.get('patientInfo.contactNumber')?.invalid && (patientForm.get('patientInfo.contactNumber')?.dirty || patientForm.get('patientInfo.contactNumber')?.touched)" class="text-danger">
+          <small *ngIf="patientForm.get('patientInfo.contactNumber')?.errors?.['required']">Contact number is required.</small>
+          <small *ngIf="patientForm.get('patientInfo.contactNumber')?.errors?.['pattern']">Enter a valid 10-digit phone number.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" formControlName="email">
+      </div>
+
+      <!-- Address -->
+      <h6 class="mt-2">Address</h6>
+      <div formGroupName="address">
+        <div class="form-group">
+          <label>Street</label>
+          <input type="text" class="form-control" formControlName="street1">
+        </div>
+        <div class="form-group">
+          <label>Apt</label>
+          <input type="text" class="form-control" formControlName="apt">
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" class="form-control" formControlName="city">
+        </div>
+        <div class="form-group">
+          <label>County</label>
+          <input type="text" class="form-control" formControlName="county">
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input type="text" class="form-control" formControlName="state">
+        </div>
+        <div class="form-group">
+          <label>Zip</label>
+          <input type="text" class="form-control" formControlName="zip">
+        </div>
+      </div>
+
+      <!-- Alternative Contact -->
+      <h6 class="mt-2">Alternative Contact</h6>
+      <div formGroupName="alternativeContact">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" formControlName="altContactName">
+        </div>
+        <div class="form-group">
+          <label>Relationship</label>
+          <input type="text" class="form-control" formControlName="relationship">
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="text" class="form-control" formControlName="altContactNumber">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" formControlName="altContactEmail">
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Prescription</label>
-      <input type="text" class="form-control" name="prescription" [(ngModel)]="patient.prescription" name="prescription" >
+    <!-- Medical History -->
+    <h5 class="mt-3">Medical History</h5>
+    <div formGroupName="medicalHistory">
+      <div class="form-group">
+        <label>Allergies</label>
+        <input type="text" class="form-control" formControlName="allergies">
+      </div>
+      <div class="form-group">
+        <label>Current Medications</label>
+        <input type="text" class="form-control" formControlName="currentMedications">
+      </div>
+      <div class="form-group">
+        <label>Drug Specific History</label>
+        <input type="text" class="form-control" formControlName="drugSpecificHistory">
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Dosage</label>
-      <input type="text" class="form-control" name="dose" [(ngModel)]="patient.dose" name="dose" >
+    <!-- Insurance Details -->
+    <h5 class="mt-3">Insurance Details</h5>
+    <div formGroupName="insuranceDetails">
+      <div class="form-group">
+        <label>Provider</label>
+        <input type="text" class="form-control" formControlName="provider">
+      </div>
+      <div class="form-group">
+        <label>Policy Number</label>
+        <input type="text" class="form-control" formControlName="policyNumber">
+      </div>
+      <div class="form-group">
+        <label>Coverage Details</label>
+        <input type="text" class="form-control" formControlName="coverageDetails">
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Fees</label>
-      <input type="text" class="form-control" name="fees" [(ngModel)]="patient.fees" name="fees" >
+    <!-- Physician -->
+    <h5 class="mt-3">Physician</h5>
+    <div formGroupName="physician">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label>Contact Number</label>
+        <input type="text" class="form-control" formControlName="contactNumber">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" formControlName="email">
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Urgency</label>
-      <input type="text" class="form-control" name="urgency" [(ngModel)]="patient.urgency" name="urgency" >
+    <!-- Consent for Treatment -->
+    <h5 class="mt-3">Consent for Treatment</h5>
+    <div formGroupName="consentForTreatment">
+      <div class="form-group">
+        <label>Patient Consent Given</label>
+        <select class="form-control" formControlName="consentGiven">
+          <option [ngValue]="null">-- Select --</option>
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date of Consent</label>
+        <input type="text" class="form-control" formControlName="dateOfConsent">
+      </div>
+      <div class="form-group">
+        <label>Physician Consent Given</label>
+        <select class="form-control" formControlName="physicianConsentGiven">
+          <option [ngValue]="null">-- Select --</option>
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Physician Date of Consent</label>
+        <input type="text" class="form-control" formControlName="physicianDateOfConsent">
+      </div>
     </div>
 
-    <button class="btn btn-success" type="submit">Submit</button>
+    <button class="btn btn-success mt-3 mb-3" type="button" (click)="onSubmit()" [disabled]="patientForm.invalid">Submit</button>
 
   </form>
   </div>

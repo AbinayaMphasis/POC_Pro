@@ -5,6 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {
+		"com.example.doclogin.controller",
+		"com.example.doclogin.model",
+		"com.example.doclogin.repository"
+		})
 
 public class DocLoginApplication {
 

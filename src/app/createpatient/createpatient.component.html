@@ -1,71 +1,93 @@
-<nav style="margin:auto" class="navbar navbar-expand-lg bg-dark">
-        
-    <a style="color: white;" class="navbar-brand" href="#">APOLLO HOSPITALS</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-          
-          <li class="nav-item">
-            <a style="color: white;"class="nav-link active" aria-current="page" href="javascript:void(0);" routerLink="/docdash">Back</a>
-          </li>
-        </ul>
-          
-    </div>
-  
-  </nav>
-  <div class="container">
-    <hr>
-  <hr>
-  <hr>
-  <div class="col-md-6-offset-md-3">
-  <h2>Add New Patient</h2>
-  <form (ngSubmit) = "onSubmit()">
-    <div class="form-group">
-      <label>ID</label>
-      <input type="number" class="form-control" id="id" [(ngModel)]="patient.id" name="id" placeholder="Enter ID">
-    </div>
-
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" class="form-control" name="name" [(ngModel)]="patient.name" name="name" placeholder="Enter Name">
-    </div>
-
-    <div class="form-group">
-      <label>Age</label>
-      <input type="text" class="form-control" name="age" [(ngModel)]="patient.age" name="age" placeholder="Enter Age">
-    </div>
-
-    <div class="form-group">
-      <label>Blood Type</label>
-      <input type="text" class="form-control" name="blood" [(ngModel)]="patient.blood" name="blood" placeholder="Enter Blood Type">
-    </div>
-
-    <div class="form-group">
-      <label>Prescription</label>
-      <input type="text" class="form-control" name="prescription" [(ngModel)]="patient.prescription" name="prescription" placeholder="Enter Prescription">
-    </div>
-
-    <div class="form-group">
-      <label>Dosage</label>
-      <input type="text" class="form-control" name="dose" [(ngModel)]="patient.dose" name="dose" placeholder="Enter Dosage">
-    </div>
-
-    <div class="form-group">
-      <label>Fees</label>
-      <input type="text" class="form-control" name="fees" [(ngModel)]="patient.fees" name="fees" placeholder="Enter Fees">
-    </div>
-
-    <div class="form-group">
-      <label>Urgency</label>
-      <input type="text" class="form-control" name="urgency" [(ngModel)]="patient.urgency" name="urgency" placeholder="Urgency">
-    </div>
-
-    <button class="btn btn-success" type="submit">Submit</button>
-
-  </form>
+<!-- ── NAVBAR ──────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg intake-navbar">
+  <a class="navbar-brand text-white fw-bold" href="#">APOLLO HOSPITALS</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    data-bs-target="#navbarContent" aria-controls="navbarContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
   </div>
+</nav>
+
+<!-- ── PAGE WRAPPER ──────────────────────────────────── -->
+<div class="intake-page-bg">
+  <div class="container intake-container">
+
+    <!-- Page header -->
+    <div class="intake-page-header">
+      <div>
+        <h2 class="intake-title">New Patient Intake Form</h2>
+        <p class="intake-subtitle">Fill all required sections to register a new patient case.</p>
+      </div>
+      <button mat-stroked-button class="btn btn-outline-back" type="button" (click)="goBackToDashboard()">
+        &#8592; Back
+      </button>
+    </div>
+
+    <!-- ── Drug Selection ─────────────────────────────── -->
+    <div class="intake-card mb-4">
+      <div class="intake-card-body">
+        <div *ngIf="selectedCaseType" class="mb-3">
+          <strong>Case Type:</strong> {{ selectedCaseType }}
+        </div>
+        <div class="row align-items-center text-md-center g-2">
+          <div *ngFor="let drug of availableDrugs" class="col-12 col-md-4">
+            <div class="drug-radio-card" [class.selected]="selectedDrugId === drug.drugId">
+              <p-radioButton
+                name="drugSelection"
+                [inputId]="drug.drugId"
+                [value]="drug.drugId"
+                [(ngModel)]="selectedDrugId"
+                [ngModelOptions]="{ standalone: true }"
+                (ngModelChange)="onDrugChange($event)">
+              </p-radioButton>
+              <label class="drug-radio-label" [for]="drug.drugId">
+                <span class="drug-id-badge">{{ drug.drugId }}</span>
+                <span class="drug-name">{{ drug.name }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!availableDrugs.length" class="text-muted mt-3">
+          No drugs are configured for the selected case type.
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM (shown only after a drug is selected) -->
+    <form *ngIf="selectedDrugId" [formGroup]="patientForm" novalidate>
+
+      <!-- 1. Patient Information -->
+      <app-patient-info-section [patientForm]="patientForm"></app-patient-info-section>
+
+      <!-- 2. Medical History -->
+      <app-medical-history-section [patientForm]="patientForm"></app-medical-history-section>
+
+      <!-- 3. Insurance Details -->
+      <app-insurance-section [patientForm]="patientForm"></app-insurance-section>
+
+      <!-- 4. Physician -->
+      <app-physician-section [patientForm]="patientForm"></app-physician-section>
+
+      <!-- 5. Prescription -->
+      <app-prescription-section [patientForm]="patientForm"></app-prescription-section>
+
+      <!-- 6. Consent for Treatment -->
+      <app-consent-section [patientForm]="patientForm"></app-consent-section>
+
+      <!-- ── Submit row ──────────────────────────────── -->
+      <div class="intake-submit-row">
+        <button mat-raised-button color="primary" class="btn btn-intake-submit" type="button" (click)="onSubmit()">
+          &#10003;&nbsp; Submit Patient Record
+        </button>
+        <button mat-stroked-button class="btn btn-intake-reset" type="button" (click)="patientForm.reset()">
+          &#8635;&nbsp; Reset Form
+        </button>
+      </div>
+
+    </form>
+
   </div>
-  
+</div>

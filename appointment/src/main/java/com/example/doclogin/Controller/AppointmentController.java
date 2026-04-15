@@ -1,4 +1,4 @@
-package com.example.doclogin.Controller;
+package com.example.doclogin.controller;
 
 import java.util.HashMap;
 import java.util.List;

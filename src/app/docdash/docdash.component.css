@@ -34,6 +34,24 @@
         width: 100%;
     }
 
+    .create-case-section {
+      margin-bottom: 12px;
+    }
+
+    .case-type-options {
+      padding: 8px 0;
+    }
+
+    .case-type-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .case-type-radio-option {
+      margin-right: 0;
+    }
+
 
   
 

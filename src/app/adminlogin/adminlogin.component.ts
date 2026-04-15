@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminauthService } from '../adminauth.service';
 import { Router } from '@angular/router';
 
@@ -9,28 +10,35 @@ import { Router } from '@angular/router';
 })
 export class AdminloginComponent implements OnInit {
 
-  username2 = 'user'
-  password2 = ''
-  invalidLogin = false
+  loginForm!: FormGroup;
+  invalidLogin = false;
 
-  constructor(private router:Router, public loginservice: AdminauthService) { }
+  constructor(
+    private router: Router,
+    public loginservice: AdminauthService
+  ) {
+  }
 
   ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+    });
   }
 
   checkLogin() {
-    if (this.loginservice.authenticate(this.username2, this.password2)
-    ) {
-      this.router.navigate(['admindash'])
-      
-      this.invalidLogin = false
-    } else
-    {
-      this.invalidLogin = true
-      alert("Wrong Credentials");
-      this.router.navigate(['home'])
+    if (this.loginForm.invalid) {
+      return;
     }
-      
+    const { username, password } = this.loginForm.value;
+    if (this.loginservice.authenticate(username, password)) {
+      this.router.navigate(['admindash']);
+      this.invalidLogin = false;
+    } else {
+      this.invalidLogin = true;
+      alert('Wrong Credentials');
+      this.router.navigate(['home']);
+    }
   }
 
 }

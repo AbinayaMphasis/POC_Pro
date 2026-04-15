@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "DemoApplication",
+      "request": "launch",
+      "mainClass": "com.example.hospital.DemoApplication",
+      "projectName": "Demo"
+    },
+    {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",

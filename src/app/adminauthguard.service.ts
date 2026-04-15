@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AdminauthService } from './adminauth.service';
@@ -24,4 +23,5 @@ export class AdminauthguardService implements CanActivate {
     return false;
 
     }
+}
 }

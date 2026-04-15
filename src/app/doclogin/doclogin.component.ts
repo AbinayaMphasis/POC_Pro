@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 
@@ -9,28 +10,35 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class DocloginComponent implements OnInit {
 
-  username = 'user'
-    password = ''
-    invalidLogin = false
+  loginForm!: FormGroup;
+  invalidLogin = false;
 
-  constructor(private router:Router, public loginservice: AuthenticationService) { }
+  constructor(
+    private router: Router,
+    public loginservice: AuthenticationService
+  ) {
+  }
 
   ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+    });
   }
 
   checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)
-    ) {
-      this.router.navigate(['docdash'])
-      
-      this.invalidLogin = false
-    } else
-    {
-      this.invalidLogin = true
-      alert("Wrong Credentials");
-      this.router.navigate(['home'])
+    if (this.loginForm.invalid) {
+      return;
     }
-      
+    const { username, password } = this.loginForm.value;
+    if (this.loginservice.authenticate(username, password)) {
+      this.router.navigate(['docdash']);
+      this.invalidLogin = false;
+    } else {
+      this.invalidLogin = true;
+      alert('Wrong Credentials');
+      this.router.navigate(['home']);
+    }
   }
 
 }

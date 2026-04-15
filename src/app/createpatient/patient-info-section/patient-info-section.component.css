@@ -1,0 +1,13 @@
+/* Patient Info Section */
+
+.gender-radio-group {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.gender-radio-group mat-radio-button {
+  color: #5e35b1;
+  font-weight: 500;
+}

@@ -19,34 +19,54 @@
 <hr>
 <hr>
 <h2>Add New Appointment</h2>
-<form (ngSubmit) = "onSubmit()">
+<form [formGroup]="appointmentForm">
 
     <div class="form-group">
         <label>ID</label>
-        <input type="number" class="form-control" id="id" [(ngModel)]="appointment.id" name="id" placeholder="Enter ID">
+        <input type="number" class="form-control" formControlName="id" placeholder="Enter ID">
+        <div *ngIf="appointmentForm.get('id')?.invalid && (appointmentForm.get('id')?.dirty || appointmentForm.get('id')?.touched)" class="text-danger">
+          <small *ngIf="appointmentForm.get('id')?.errors?.['required']">ID is required.</small>
+        </div>
     </div>
 
     <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="appointment.name" name="name" placeholder="Enter Name">
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter Name">
+        <div *ngIf="appointmentForm.get('name')?.invalid && (appointmentForm.get('name')?.dirty || appointmentForm.get('name')?.touched)" class="text-danger">
+          <small *ngIf="appointmentForm.get('name')?.errors?.['required']">Name is required.</small>
+          <small *ngIf="appointmentForm.get('name')?.errors?.['pattern']">Enter a valid name (letters and spaces only, 2-50 characters).</small>
+        </div>
     </div>
 
     <div class="form-group">
         <label>Age</label>
-        <input type="text" class="form-control" id="age" [(ngModel)]="appointment.age" name="age" placeholder="Enter Age">
+        <input type="number" class="form-control" formControlName="age" placeholder="Enter Age">
+        <div *ngIf="appointmentForm.get('age')?.invalid && (appointmentForm.get('age')?.dirty || appointmentForm.get('age')?.touched)" class="text-danger">
+          <small *ngIf="appointmentForm.get('age')?.errors?.['required']">Age is required.</small>
+          <small *ngIf="appointmentForm.get('age')?.errors?.['min']">Age must be at least 0.</small>
+          <small *ngIf="appointmentForm.get('age')?.errors?.['max']">Age cannot exceed 150.</small>
+        </div>
     </div>
 
     <div class="form-group">
         <label>Symptoms</label>
-        <input type="text" class="form-control" id="symptoms" [(ngModel)]="appointment.symptoms" name="symptoms" placeholder="Enter Symptoms">
+        <input type="text" class="form-control" formControlName="symptoms" placeholder="Enter Symptoms">
+        <div *ngIf="appointmentForm.get('symptoms')?.invalid && (appointmentForm.get('symptoms')?.dirty || appointmentForm.get('symptoms')?.touched)" class="text-danger">
+          <small *ngIf="appointmentForm.get('symptoms')?.errors?.['required']">Symptoms are required.</small>
+          <small *ngIf="appointmentForm.get('symptoms')?.errors?.['minlength']">Symptoms must be at least 5 characters.</small>
+        </div>
     </div>
 
     <div class="form-group">
-        <label>Number</label>
-        <input type="text" class="form-control" id="number" [(ngModel)]="appointment.number" name="number" placeholder="Enter Number">
+        <label>Phone Number</label>
+        <input type="text" class="form-control" formControlName="number" placeholder="Enter Phone Number">
+        <div *ngIf="appointmentForm.get('number')?.invalid && (appointmentForm.get('number')?.dirty || appointmentForm.get('number')?.touched)" class="text-danger">
+          <small *ngIf="appointmentForm.get('number')?.errors?.['required']">Phone number is required.</small>
+          <small *ngIf="appointmentForm.get('number')?.errors?.['pattern']">Enter a valid 10-digit phone number starting with 6-9.</small>
+        </div>
     </div>
 
-    <button class="btn btn-success" type="submit">Submit</button>
+    <button class="btn btn-success" type="button" (click)="onSubmit()" [disabled]="appointmentForm.invalid">Submit</button>
 
 </form>
 </div>

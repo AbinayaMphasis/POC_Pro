@@ -1,0 +1,42 @@
+<div class="section-card" [formGroup]="patientForm">
+  <div class="section-card-header">
+    <span class="section-icon">&#128203;</span> Medical History
+  </div>
+  <div class="section-card-body" [formGroupName]="'medicalHistory'">
+
+    <p class="section-hint">Enter multiple entries separated by commas.</p>
+
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Allergies</mat-label>
+          <input matInput formControlName="allergies" placeholder="e.g. Penicillin, Pollen, Peanuts" />
+        </mat-form-field>
+        <small class="text-muted hint-text">Separate each allergy with a comma</small>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Current Medications</mat-label>
+          <input matInput formControlName="currentMedications" placeholder="e.g. Metformin 500mg, Aspirin 75mg" />
+        </mat-form-field>
+        <small class="text-muted hint-text">Separate each medication with a comma</small>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="selectedDrug">
+      <div class="col-md-12 form-group">
+        <label class="field-label">Have you had any prior reaction or history with {{ selectedDrug.name }}?</label>
+        <textarea
+          pInputTextarea
+          class="full-width sky-textarea"
+          formControlName="drugSpecificHistory"
+          rows="3"
+          [autoResize]="true"
+          [placeholder]="'Enter any previous usage, reaction, or notes related to ' + selectedDrug.name"
+        ></textarea>
+      </div>
+    </div>
+
+  </div>
+</div>

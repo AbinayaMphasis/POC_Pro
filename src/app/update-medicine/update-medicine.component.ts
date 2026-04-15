@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MedicineService } from '../medicine.service';
 import { Medicine } from '../medicine';
-
 
 @Component({
   selector: 'app-update-medicine',
@@ -12,25 +12,43 @@ import { Medicine } from '../medicine';
 export class UpdateMedicineComponent implements OnInit {
 
   id: number;
-  medicine: Medicine = new Medicine();
-  constructor(private medicineService: MedicineService,
+  medicineForm!: FormGroup;
+  submitted = false;
+
+  constructor(
+    private medicineService: MedicineService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
+    this.medicineForm = new FormGroup({
+      id: new FormControl('', Validators.required),
+      drugName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      stock: new FormControl('', [Validators.required, Validators.min(0)])
+    });
+
     this.id = this.route.snapshot.params['id'];
-    this.medicineService.getMedicineById(this.id).subscribe(data => {
-      this.medicine = data;
-    } 
-    , error => console.log(error));
+    this.medicineService.getMedicineById(this.id).subscribe(
+      data => {
+        this.medicineForm.patchValue(data);
+      },
+      error => console.log(error)
+    );
   }
 
   onSubmit() {
-    this.medicineService.updateMedicine(this.id, this.medicine).subscribe(data => { 
-      this.goToMedicineList();
-    } 
-    , error => console.log(error));
-
+    this.submitted = true;
+    if (this.medicineForm.valid) {
+      const medicine: Medicine = this.medicineForm.value;
+      this.medicineService.updateMedicine(this.id, medicine).subscribe(
+        data => {
+          this.goToMedicineList();
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   goToMedicineList() {

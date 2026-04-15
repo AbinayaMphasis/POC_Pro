@@ -1,0 +1,80 @@
+<div class="section-card" [formGroup]="patientForm">
+  <div class="section-card-header">
+    <span class="section-icon">&#128394;</span> Consent for Treatment
+  </div>
+  <div class="section-card-body" [formGroupName]="'consentForTreatment'">
+
+    <!-- ── Patient Consent ──────────────────────────────── -->
+    <div class="consent-block mb-4">
+      <h6 class="consent-heading">Patient Consent</h6>
+
+      <div *ngIf="patientConsent" class="consent-text-box mb-2">
+        <div [innerHTML]="patientConsent.consent"></div>
+      </div>
+
+      <div class="row align-items-start mt-2">
+        <div class="col-auto">
+          <label class="field-label consent-question mb-1">Patient's Agreement:</label>
+          <mat-radio-group class="consent-radio-group" formControlName="consentGiven">
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="col-md-3 form-group mb-0">
+          <label class="field-label">Date of Consent <span class="required">*</span></label>
+          <p-calendar
+            formControlName="dateOfConsent"
+            styleClass="full-width sky-prime-control"
+            [showIcon]="true"
+            [maxDate]="maxDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select consent date"
+            appendTo="body">
+          </p-calendar>
+          <div *ngIf="isInvalid('dateOfConsent')" class="field-error">
+            <small *ngIf="hasError('dateOfConsent', 'required')">Date of consent is required.</small>
+            <small *ngIf="hasError('dateOfConsent', 'futureDate')">Date of consent cannot be in the future.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Physician Consent ────────────────────────────── -->
+    <div class="consent-block">
+      <h6 class="consent-heading">Physician Consent</h6>
+
+      <div *ngIf="physicianConsent" class="consent-text-box mb-2">
+        <div [innerHTML]="physicianConsent.consent"></div>
+      </div>
+
+      <div class="row align-items-start mt-2">
+        <div class="col-auto">
+          <label class="field-label consent-question mb-1">Physician's Agreement:</label>
+          <mat-radio-group class="consent-radio-group" formControlName="physicianConsentGiven">
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="col-md-3 form-group mb-0">
+          <label class="field-label">Date of Consent <span class="required">*</span></label>
+          <p-calendar
+            formControlName="physicianDateOfConsent"
+            styleClass="full-width sky-prime-control"
+            [showIcon]="true"
+            [maxDate]="maxDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Select consent date"
+            appendTo="body">
+          </p-calendar>
+          <div *ngIf="isInvalid('physicianDateOfConsent')" class="field-error">
+            <small *ngIf="hasError('physicianDateOfConsent', 'required')">Date of consent is required.</small>
+            <small *ngIf="hasError('physicianDateOfConsent', 'futureDate')">Date of consent cannot be in the future.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

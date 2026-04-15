@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 import { Patient } from './patient';
 
 @Injectable({
@@ -18,10 +18,10 @@ export class PatientService {
   }
 
   createPatient(patient: Patient): Observable<Patient> {
-    return this.httpClient.post<Patient>(`${this.baseUrl}`, patient);
+    return this.httpClient.post<Patient>(`${this.baseUrl}`, patient).pipe(retry(3));
   }
 
-  getPatientById(id: number): Observable<Patient> {   
+  getPatientById(id: number): Observable<Patient> {
     return this.httpClient.get<Patient>(`${this.baseUrl}/${id}`);
   }
 

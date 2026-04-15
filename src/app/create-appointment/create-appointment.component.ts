@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Appointment } from '../appointment';
 import { AppointmentService } from '../appointment.service';
 import { Router } from '@angular/router';
@@ -10,30 +11,48 @@ import { Router } from '@angular/router';
 })
 export class CreateAppointmentComponent implements OnInit {
 
-  appointment: Appointment = new Appointment();
+  appointmentForm!: FormGroup;
+  submitted = false;
 
-  constructor(private appointmentService: AppointmentService,
-    private router: Router) { }
+  constructor(
+    private appointmentService: AppointmentService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
+    this.appointmentForm = new FormGroup({
+      id: new FormControl('', Validators.required),
+      name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{2,50}$')]),
+      age: new FormControl('', [Validators.required, Validators.min(0), Validators.max(150)]),
+      symptoms: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      number: new FormControl('', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')])
+    });
   }
 
   saveAppointment() {
-
-    this.appointmentService.createAppointment(this.appointment).subscribe(data => {
-      console.log(data);
-      this.goToAppointmentList();
-    },
-    error => console.log(error));
+    if (this.appointmentForm.invalid) {
+      return;
+    }
+    const appointment: Appointment = this.appointmentForm.value;
+    this.appointmentService.createAppointment(appointment).subscribe(
+      data => {
+        console.log(data);
+        this.goToAppointmentList();
+      },
+      error => console.log(error)
+    );
   }
 
   goToAppointmentList() {
-    this.router.navigate(['/appointmentlist'])
+    this.router.navigate(['/appointmentlist']);
   }
 
   onSubmit() {
-    console.log(this.appointment);
-    this.saveAppointment();
+    this.submitted = true;
+    if (this.appointmentForm.valid) {
+      this.saveAppointment();
+    }
   }
 
 }

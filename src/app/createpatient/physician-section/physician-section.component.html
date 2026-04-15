@@ -1,0 +1,34 @@
+<div class="section-card" [formGroup]="patientForm">
+  <div class="section-card-header">
+    <span class="section-icon">&#128084;</span> Primary Physician
+  </div>
+  <div class="section-card-body" [formGroupName]="'physician'">
+
+    <div class="row">
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Physician Name</mat-label>
+          <input matInput formControlName="name" placeholder="Dr. Full Name" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Contact Number</mat-label>
+          <input matInput formControlName="contactNumber" placeholder="Physician phone" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Physician email" />
+        </mat-form-field>
+        <div *ngIf="isInvalid('email')" class="field-error">
+          <small *ngIf="hasFieldError('email', 'email')">Enter a valid email.</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

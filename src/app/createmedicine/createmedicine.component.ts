@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Medicine } from '../medicine';
 import { MedicineService } from '../medicine.service';
-
 
 @Component({
   selector: 'app-createmedicine',
@@ -11,31 +11,46 @@ import { MedicineService } from '../medicine.service';
 })
 export class CreatemedicineComponent implements OnInit {
 
-  medicine: Medicine = new Medicine();
-  constructor(private medicineService: MedicineService,
-    private router: Router) { }
+  medicineForm!: FormGroup;
+  submitted = false;
+
+  constructor(
+    private medicineService: MedicineService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
+    this.medicineForm = new FormGroup({
+      id: new FormControl('', Validators.required),
+      drugName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+      stock: new FormControl('', [Validators.required, Validators.min(0)])
+    });
   }
 
   saveMedicine() {
-    this.medicineService.createMedicine(this.medicine).subscribe(data => {
-      console.log(data);
-      this.goToMedicineList();
-    }, 
-    error => console.log(error));
+    if (this.medicineForm.invalid) {
+      return;
+    }
+    const medicine: Medicine = this.medicineForm.value;
+    this.medicineService.createMedicine(medicine).subscribe(
+      data => {
+        console.log(data);
+        this.goToMedicineList();
+      },
+      error => console.log(error)
+    );
   }
 
   goToMedicineList() {
-
     this.router.navigate(['/medicinelist']);
-
   }
 
   onSubmit() {
-    
-    console.log(this.medicine);
-    this.saveMedicine();
+    this.submitted = true;
+    if (this.medicineForm.valid) {
+      this.saveMedicine();
+    }
   }
 
 }

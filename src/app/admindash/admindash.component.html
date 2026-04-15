@@ -20,7 +20,7 @@
 
       <div class="mx-2">
         
-        <button style="margin: 5px;"class="btn btn-danger" data-toggle="modal" data-target="#loginModal"><a style="color:white;" href="javascript:void(0);" routerLink="/home">Logout</a></button>
+        <button style="margin: 5px;" class="btn btn-danger" type="button" (click)="logout()">Logout</button>
         
     </div>
       
@@ -39,6 +39,8 @@
     <input type="text" name="search" [(ngModel)]="searchText" placeholder="Search"> 
     <br>
     <a style="color: rgb(86, 86, 86); font-size: xx-large;">Current Patient List in the Queue</a>
+    <br>
+    <button class="btn btn-primary" style="margin-bottom: 15px;" (click)="createPatient()">Create Patient</button>
 <div class="tableFixHead">
   <br>
   <table class="table table-striped">
@@ -46,28 +48,22 @@
       <tr>
         <th>Id</th>
         <th>Name</th>
-        <th>Age</th>
-        
-        
-        
-        <th>Fees</th>
-        <th>Urgency</th>
+        <th>Gender</th>
+        <th>Contact</th>
+        <th>Case Type</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let patient of patients | filter:searchText">
-        <td>{{patient.id}}</td>
-        <td>{{patient.name}}</td>
-        <td>{{patient.age}}</td>
-        
-        
-        
-        <td>{{patient.fees}}</td>
-        <td>{{patient.urgency}}</td>
+        <td>{{patient?.id}}</td>
+        <td>{{patient?.patientInfo?.firstName}} {{patient?.patientInfo?.lastName}}</td>
+        <td>{{patient?.patientInfo?.gender}}</td>
+        <td>{{patient?.patientInfo?.contactNumber}}</td>
+        <td>{{patient?.caseType}}</td>
         <td>
           
-          <button (click) = "deletePatient(patient.id)" class="btn btn-danger" style="margin-left: 10px;">Delete</button>
+          <button (click) = "deletePatient(patient?.id)" class="btn btn-danger" style="margin-left: 10px;">Delete</button>
         </td>
       </tr>
     </tbody>

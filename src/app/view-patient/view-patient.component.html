@@ -19,30 +19,106 @@
 <hr>
 <hr>
 <div class="container">
-    <h3>Patient Diagnosis Details</h3>
+    <h3>Patient Details</h3>
 <div>
+
+<h5 class="mt-3">Patient Information</h5>
 <div>
-    <label> <b> Name: </b></label> {{patient.name}}
+    <label> <b> Name: </b></label> {{patient?.patientInfo?.firstName}} {{patient?.patientInfo?.lastName}}
+</div>
+<div>
+    <label> <b> Date of Birth: </b></label> {{patient?.patientInfo?.dateOfBirth}}
+</div>
+<div>
+    <label> <b> Gender: </b></label> {{patient?.patientInfo?.gender}}
+</div>
+<div>
+    <label> <b> Contact: </b></label> {{patient?.patientInfo?.contactNumber}}
+</div>
+<div>
+    <label> <b> Email: </b></label> {{patient?.patientInfo?.email}}
 </div>
 
+<h6 class="mt-2">Address</h6>
 <div>
-    <label> <b> Age: </b></label> {{patient.age}}
+    <label> <b> Street: </b></label> {{patient?.patientInfo?.address?.street1}}
+</div>
+<div>
+    <label> <b> Apt: </b></label> {{patient?.patientInfo?.address?.apt}}
+</div>
+<div>
+    <label> <b> City: </b></label> {{patient?.patientInfo?.address?.city}}
+</div>
+<div>
+    <label> <b> County: </b></label> {{patient?.patientInfo?.address?.county}}
+</div>
+<div>
+    <label> <b> State: </b></label> {{patient?.patientInfo?.address?.state}}
+</div>
+<div>
+    <label> <b> Zip: </b></label> {{patient?.patientInfo?.address?.zip}}
 </div>
 
+<h6 class="mt-2">Alternative Contact</h6>
 <div>
-    <label> <b> Blood Type: </b></label> {{patient.blood}}
+    <label> <b> Name: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactName}}
+</div>
+<div>
+    <label> <b> Relationship: </b></label> {{patient?.patientInfo?.alternativeContact?.relationship}}
+</div>
+<div>
+    <label> <b> Contact: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactNumber}}
+</div>
+<div>
+    <label> <b> Email: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactEmail}}
 </div>
 
+<h5 class="mt-3">Medical History</h5>
 <div>
-    <label> <b> Dosage </b></label> {{patient.dose}}
+    <label> <b> Allergies: </b></label> {{patient?.medicalHistory?.allergies}}
+</div>
+<div>
+    <label> <b> Current Medications: </b></label> {{patient?.medicalHistory?.currentMedications}}
+</div>
+<div>
+    <label> <b> Drug Specific History: </b></label> {{patient?.medicalHistory?.drugSpecificHistory}}
 </div>
 
+<h5 class="mt-3">Insurance Details</h5>
 <div>
-    <label> <b> Urgency </b></label> {{patient.urgency}}
+    <label> <b> Provider: </b></label> {{patient?.insuranceDetails?.provider}}
+</div>
+<div>
+    <label> <b> Policy Number: </b></label> {{patient?.insuranceDetails?.policyNumber}}
+</div>
+<div>
+    <label> <b> Coverage Details: </b></label> {{patient?.insuranceDetails?.coverageDetails}}
 </div>
 
+<h5 class="mt-3">Physician</h5>
 <div>
-    <label> <b> Detailed Diagnosis & Prescription: </b></label> {{patient.prescription}}
-</div>    
+    <label> <b> Physician Name: </b></label> {{patient?.physician?.name}}
+</div>
+<div>
+    <label> <b> Contact: </b></label> {{patient?.physician?.contactNumber}}
+</div>
+<div>
+    <label> <b> Email: </b></label> {{patient?.physician?.email}}
+</div>
+
+<h5 class="mt-3">Consent</h5>
+<div>
+    <label> <b> Patient Consent: </b></label> {{patient?.consentForTreatment?.[0]?.consentGiven ? 'Yes' : 'No'}}
+</div>
+<div>
+    <label> <b> Date of Consent: </b></label> {{patient?.consentForTreatment?.[0]?.dateOfConsent}}
+</div>
+<div>
+    <label> <b> Physician Consent: </b></label> {{patient?.consentForTreatment?.[1]?.consentGiven ? 'Yes' : 'No'}}
+</div>
+<div>
+    <label> <b> Physician Date of Consent: </b></label> {{patient?.consentForTreatment?.[1]?.dateOfConsent}}
+</div>
+
 </div>
 </div>

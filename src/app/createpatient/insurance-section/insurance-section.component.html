@@ -1,0 +1,36 @@
+<div class="section-card" [formGroup]="patientForm">
+  <div class="section-card-header">
+    <span class="section-icon">&#128196;</span> Insurance Details
+  </div>
+  <div class="section-card-body" [formGroupName]="'insuranceDetails'">
+
+    <div class="row">
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Insurance Provider</mat-label>
+          <input matInput formControlName="provider" placeholder="e.g. Star Health, HDFC ERGO" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Policy Number</mat-label>
+          <input matInput formControlName="policyNumber" placeholder="Enter policy number" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Coverage Details</mat-label>
+          <input matInput formControlName="coverageDetails" placeholder="e.g. Cashless, Reimbursement" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="no-insurance-note">
+      <span class="note-icon">&#8505;</span>
+      Leave blank if the patient does not have insurance coverage.
+    </div>
+
+  </div>
+</div>
