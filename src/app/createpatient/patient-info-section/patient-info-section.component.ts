@@ -42,4 +42,10 @@ export class PatientInfoSectionComponent implements OnInit, OnDestroy {
   get altContactGroup(): FormGroup {
     return this.patientGroup?.get('alternativeContact') as FormGroup;
   }
+
+  get patientNameLengthInvalid(): boolean | undefined {
+    const firstTouched = this.patientGroup.get('firstName')?.dirty || this.patientGroup.get('firstName')?.touched;
+    const lastTouched = this.patientGroup.get('lastName')?.dirty || this.patientGroup.get('lastName')?.touched;
+    return !!this.patientGroup.errors?.['patientNameLength'] && (firstTouched || lastTouched);
+  }
 }

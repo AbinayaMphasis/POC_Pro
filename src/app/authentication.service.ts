@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  url: string = 'http://localhost:8080/api/auth';
   
-  authenticate(username: string, password: string) {
-    if (username === "Doctor" && password === "Doctor@123") {
-      sessionStorage.setItem('username', username)
-      return true;
-    } else {
-      return false;
-    }
+  authenticate(username: string, password: string): Observable<any> {
+    const user = {
+      username: username,
+      password: password
+    };
+    return this.http.post(`${this.url}/login`, user);
+  }
+
+  createUser(username: string, password: string, role: string): Observable<any> {
+    const user = {
+      username: username,
+      password: password,
+      role: role
+    };
+    return this.http.post(`${this.url}/create-user`, user);
   }
 
   isUserLoggedIn() {

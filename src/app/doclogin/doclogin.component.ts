@@ -11,7 +11,11 @@ import { AuthenticationService } from '../authentication.service';
 export class DocloginComponent implements OnInit {
 
   loginForm!: FormGroup;
+  createUserForm!: FormGroup;
   invalidLogin = false;
+  showCreateUserForm = false;
+  successMessage = '';
+  errorMessage = '';
 
   constructor(
     private router: Router,
@@ -20,10 +24,30 @@ export class DocloginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeForms();
+  }
+
+  initializeForms(): void {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(3)]),
       password: new FormControl('', [Validators.required, Validators.minLength(4)])
     });
+
+    this.createUserForm = new FormGroup({
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+    });
+  }
+
+  toggleCreateUserForm(): void {
+    this.showCreateUserForm = !this.showCreateUserForm;
+    this.successMessage = '';
+    this.errorMessage = '';
+    if (this.showCreateUserForm) {
+      this.loginForm.reset();
+    } else {
+      this.createUserForm.reset();
+    }
   }
 
   checkLogin() {
@@ -31,14 +55,47 @@ export class DocloginComponent implements OnInit {
       return;
     }
     const { username, password } = this.loginForm.value;
-    if (this.loginservice.authenticate(username, password)) {
-      this.router.navigate(['docdash']);
-      this.invalidLogin = false;
-    } else {
-      this.invalidLogin = true;
-      alert('Wrong Credentials');
-      this.router.navigate(['home']);
+    
+    this.loginservice.authenticate(username, password).subscribe({
+      next: (user: any) => {
+        if (user && user.role === 'doctor') {
+          sessionStorage.setItem('username', username);
+          this.router.navigate(['docdash']);
+          this.invalidLogin = false;
+        } else {
+          this.invalidLogin = true;
+          alert('Wrong Credentials or not a doctor account');
+          this.router.navigate(['home']);
+        }
+      },
+      error: (error: any) => {
+        this.invalidLogin = true;
+        alert('Wrong Credentials');
+        this.router.navigate(['home']);
+      }
+    });
+  }
+
+  createUser(): void {
+    if (this.createUserForm.invalid) {
+      return;
     }
+    const { username, password } = this.createUserForm.value;
+    
+    this.loginservice.createUser(username, password, 'doctor').subscribe({
+      next: (response: any) => {
+        this.successMessage = 'User created successfully! You can now login.';
+        this.errorMessage = '';
+        this.createUserForm.reset();
+        setTimeout(() => {
+          this.toggleCreateUserForm();
+        }, 2000);
+      },
+      error: (error: any) => {
+        this.errorMessage = error.error?.message || 'Error creating user. Please try again.';
+        this.successMessage = '';
+      }
+    });
   }
 
 }

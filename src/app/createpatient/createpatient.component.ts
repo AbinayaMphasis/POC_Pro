@@ -3,8 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Patient } from '../patient';
 import { PatientService } from '../patient.service';
-import { catchError, throwError } from 'rxjs';
-import { noFutureDate } from './date-validators';
+import { CustomValidators } from '../custom-validators.service';
 import { DrugSelectionService } from './drug-selection.service';
 import { Drug, DRUGS } from './drug.model';
 import { getDrugNamesByCaseType } from '../constants/intake-config';
@@ -42,7 +41,7 @@ export class CreatepatientComponent implements OnInit {
       patient: this.fb.group({
         firstName:     ['', [Validators.required, Validators.pattern('^[A-Za-z ]{2,50}$')]],
         lastName:      ['', Validators.required],
-        dateOfBirth:   ['', [Validators.required, noFutureDate]],
+        dateOfBirth:   ['', [Validators.required, CustomValidators.noFutureDate]],
         gender:        ['', Validators.required],
         contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
         email:         ['', Validators.email],
@@ -60,7 +59,7 @@ export class CreatepatientComponent implements OnInit {
           contactNumber: [''],
           email:         ['', Validators.email]
         })
-      }),
+      }, { validators: CustomValidators.patientNameLength() }),
 
       // ── Medical History ─────────────────────────────────────────
       medicalHistory: this.fb.group({
@@ -89,9 +88,9 @@ export class CreatepatientComponent implements OnInit {
       // ── Consent for Treatment ────────────────────────────────────
       consentForTreatment: this.fb.group({
         consentGiven:  [null, Validators.required],
-        dateOfConsent: ['', [Validators.required, noFutureDate]],
+        dateOfConsent: ['', [Validators.required, CustomValidators.noFutureDate]],
         physicianConsentGiven: [null, Validators.required],
-        physicianDateOfConsent: ['', [Validators.required, noFutureDate]]
+        physicianDateOfConsent: ['', [Validators.required, CustomValidators.noFutureDate]]
       })
 
     });

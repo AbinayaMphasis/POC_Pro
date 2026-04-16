@@ -24,6 +24,9 @@
         <div *ngIf="patientGroup.get('lastName')?.invalid && (patientGroup.get('lastName')?.dirty || patientGroup.get('lastName')?.touched)" class="field-error">
           <small *ngIf="patientGroup.get('lastName')?.errors?.['required']">Last name is required.</small>
         </div>
+        <div *ngIf="patientNameLengthInvalid" class="field-error">
+          <small>Either one of the names should be of more than three characters.</small>
+        </div>
       </div>
 
       <div class="col-md-3 form-group">

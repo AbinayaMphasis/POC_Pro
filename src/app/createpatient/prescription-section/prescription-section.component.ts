@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { noFutureDate } from '../date-validators';
+import { CustomValidators } from '../../custom-validators.service';
 import { DrugSelectionService } from '../drug-selection.service';
 import { Drug } from '../drug.model';
 
@@ -62,7 +62,7 @@ export class PrescriptionSectionComponent implements OnInit, OnDestroy {
       frequency:        [value?.frequency        ?? ''],
       duration:         [value?.duration         ?? ''],
       prescriberSigned: [value?.prescriberSigned ?? null],
-      dateSigned:       [value?.dateSigned       ?? '', noFutureDate]
+      dateSigned:       [value?.dateSigned       ?? '', CustomValidators.noFutureDate]
     });
   }
 
