@@ -1,5 +1,6 @@
 package com.example.hospital.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,14 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "lookups", name = "ConsentType")
-public class ConsentType {
+@Table(schema = "lookups", name = "ServiceType")
+public class ServiceType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String consentType;
+
+    private String value;
+
+    @Column(name = "isActive")
     private Boolean isActive;
 
 }

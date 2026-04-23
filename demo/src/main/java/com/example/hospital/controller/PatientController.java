@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.hospital.model.Patient;
+import com.example.hospital.model.Case;
 import com.example.hospital.repository.PatientRepository;
 
 @RestController
@@ -29,26 +29,26 @@ public class PatientController {
 	private PatientRepository patientRepository;
 
 	@GetMapping("/patients")
-	public List<Patient> getAllPatients() {
+	public List<Case> getAllPatients() {
 		return patientRepository.findAll();
 	}
 
 	@PostMapping("/patients")
-	public Patient createPatient(@RequestBody Patient patient) {
+	public Case createPatient(@RequestBody Case patient) {
 		return patientRepository.save(patient);
 	}
 
 	@GetMapping("/patients/{id}")
-	public ResponseEntity<Patient> getPatientById(@PathVariable Long id) throws AttributeNotFoundException {
-		Patient patient = patientRepository.findById(id)
+	public ResponseEntity<Case> getPatientById(@PathVariable Long id) throws AttributeNotFoundException {
+		Case patient = patientRepository.findById(id)
 				.orElseThrow(() -> new AttributeNotFoundException("Patient not found: " + id));
 		return ResponseEntity.ok(patient);
 	}
 
 	@PutMapping("/patients/{id}")
-	public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient patientDetails)
+	public ResponseEntity<Case> updatePatient(@PathVariable Long id, @RequestBody Case patientDetails)
 			throws AttributeNotFoundException {
-		Patient patient = patientRepository.findById(id)
+		Case patient = patientRepository.findById(id)
 				.orElseThrow(() -> new AttributeNotFoundException("Patient not found: " + id));
 
 		patient.setSelectedDrugId(patientDetails.getSelectedDrugId());
@@ -59,7 +59,7 @@ public class PatientController {
 		patient.setPhysician(patientDetails.getPhysician());
 		patient.setConsentForTreatment(patientDetails.getConsentForTreatment());
 
-		Patient updatedPatient = patientRepository.save(patient);
+		Case updatedPatient = patientRepository.save(patient);
 		return ResponseEntity.ok(updatedPatient);
 	}
 

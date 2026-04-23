@@ -12,35 +12,51 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NewsfeedComponent } from './newsfeed/newsfeed.component';
-import { DocloginComponent } from './doclogin/doclogin.component';
-import { AdminloginComponent } from './adminlogin/adminlogin.component';
-import { DocdashComponent } from './docdash/docdash.component';
-import { AdmindashComponent } from './admindash/admindash.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGaurdService } from './auth-gaurd.service';
-import { CreatepatientComponent } from './createpatient/createpatient.component';
-import { AuthenticationService } from './authentication.service';
-import { UpdatePatientComponent } from './update-patient/update-patient.component';
-import { MedicineListComponent } from './medicine-list/medicine-list.component';
-import { CreatemedicineComponent } from './createmedicine/createmedicine.component';
-import { UpdateMedicineComponent } from './update-medicine/update-medicine.component';
-import { AppointmentListComponent } from './appointment-list/appointment-list.component';
-import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
-import { ViewPatientComponent } from './view-patient/view-patient.component';
-import { AdminauthService } from './adminauth.service';
-import { AdminauthguardService } from './adminauthguard.service';
 
-// Intake section components (under createpatient/)
-import { PatientInfoSectionComponent } from './createpatient/patient-info-section/patient-info-section.component';
-import { MedicalHistorySectionComponent } from './createpatient/medical-history-section/medical-history-section.component';
-import { InsuranceSectionComponent } from './createpatient/insurance-section/insurance-section.component';
-import { PhysicianSectionComponent } from './createpatient/physician-section/physician-section.component';
-import { PrescriptionSectionComponent } from './createpatient/prescription-section/prescription-section.component';
-import { ConsentSectionComponent } from './createpatient/consent-section/consent-section.component';
+// Auth services
+import { AuthenticationService } from './auth/authentication.service';
+import { AdminauthService } from './auth/adminauth.service';
+
+// Guards
+import { AuthGaurdService } from './guards/auth-gaurd.service';
+import { AdminauthguardService } from './guards/adminauthguard.service';
+
+// Login feature components
+import { DocloginComponent } from './features/login/doclogin/doclogin.component';
+import { AdminloginComponent } from './features/login/adminlogin/adminlogin.component';
+
+// Dashboard feature components
+import { DocdashComponent } from './features/dashboard/docdash/docdash.component';
+import { AdmindashComponent } from './features/dashboard/admindash/admindash.component';
+
+// Patient feature components
+import { CreatepatientComponent } from './features/patient/createpatient/createpatient.component';
+import { UpdatePatientComponent } from './features/patient/update-patient/update-patient.component';
+import { ViewPatientComponent } from './features/patient/view-patient/view-patient.component';
+
+// Medicine feature components
+import { MedicineListComponent } from './features/medicine/medicine-list/medicine-list.component';
+import { CreatemedicineComponent } from './features/medicine/createmedicine/createmedicine.component';
+import { UpdateMedicineComponent } from './features/medicine/update-medicine/update-medicine.component';
+
+// Appointment feature components
+import { AppointmentListComponent } from './features/appointment/appointment-list/appointment-list.component';
+import { CreateAppointmentComponent } from './features/appointment/create-appointment/create-appointment.component';
+
+// Newsfeed
+import { NewsfeedComponent } from './features/newsfeed/newsfeed.component';
+
+// Intake section components (under patient/createpatient/)
+import { PatientInfoSectionComponent } from './features/patient/createpatient/patient-info-section/patient-info-section.component';
+import { MedicalHistorySectionComponent } from './features/patient/createpatient/medical-history-section/medical-history-section.component';
+import { InsuranceSectionComponent } from './features/patient/createpatient/insurance-section/insurance-section.component';
+import { PhysicianSectionComponent } from './features/patient/createpatient/physician-section/physician-section.component';
+import { PrescriptionSectionComponent } from './features/patient/createpatient/prescription-section/prescription-section.component';
+import { ConsentSectionComponent } from './features/patient/createpatient/consent-section/consent-section.component';
 
 const routes: Routes = [
   { path: '', component: NewsfeedComponent },

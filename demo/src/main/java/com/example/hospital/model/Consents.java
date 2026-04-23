@@ -14,14 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "lookups", name = "ConsentType")
-public class ConsentType {
+@Table(name = "Consents")
+public class Consents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String consentType;
-    private Boolean isActive;
 
+    // 1 = Patient Consent, 2 = Physician Consent
+    private Integer consentType;
+
+    private Boolean consentGiven;
+    private String dateOfConsent;
 }
