@@ -11,6 +11,7 @@ import { Drug } from '../drug-selection.service';
 })
 export class PatientInfoSectionComponent implements OnInit, OnDestroy {
   @Input() patientForm!: FormGroup;
+  @Input() readonly = false;
 
   readonly maxDate = new Date();
   readonly stateOptions = [

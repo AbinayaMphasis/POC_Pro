@@ -57,6 +57,7 @@ public class PatientController {
 		patient.setMedicalHistory(patientDetails.getMedicalHistory());
 		patient.setInsuranceDetails(patientDetails.getInsuranceDetails());
 		patient.setPhysician(patientDetails.getPhysician());
+		patient.setPrescriptions(patientDetails.getPrescriptions());
 		patient.setConsentForTreatment(patientDetails.getConsentForTreatment());
 
 		Case updatedPatient = patientRepository.save(patient);

@@ -12,10 +12,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+
+// Global loader
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 
 // Auth services
 import { AuthenticationService } from './auth/authentication.service';
@@ -35,8 +39,6 @@ import { AdmindashComponent } from './features/dashboard/admindash/admindash.com
 
 // Patient feature components
 import { CreatepatientComponent } from './features/patient/createpatient/createpatient.component';
-import { UpdatePatientComponent } from './features/patient/update-patient/update-patient.component';
-import { ViewPatientComponent } from './features/patient/view-patient/view-patient.component';
 
 // Medicine feature components
 import { MedicineListComponent } from './features/medicine/medicine-list/medicine-list.component';
@@ -63,16 +65,16 @@ const routes: Routes = [
   { path: 'doclogin', component: DocloginComponent },
   { path: 'adlogin', component: AdminloginComponent },
   { path: 'home', component: NewsfeedComponent },
-  { path: 'createpatient', component: CreatepatientComponent },
+  { path: 'createpatient', component: CreatepatientComponent, data: { mode: 'create' } },
   { path: 'docdash', component: DocdashComponent, canActivate: [AuthGaurdService] },
-  { path: 'updatepatient/:id', component: UpdatePatientComponent, canActivate: [AuthGaurdService] },
+  { path: 'updatepatient/:id', component: CreatepatientComponent, data: { mode: 'edit' }, canActivate: [AuthGaurdService] },
   { path: 'admindash', component: AdmindashComponent, canActivate: [AdminauthguardService] },
   { path: 'medicinelist', component: MedicineListComponent, canActivate: [AuthGaurdService] },
   { path: 'createmedicine', component: CreatemedicineComponent, canActivate: [AuthGaurdService] },
   { path: 'updatemedicine/:id', component: UpdateMedicineComponent, canActivate: [AuthGaurdService] },
   { path: 'appointmentlist', component: AppointmentListComponent, canActivate: [AuthGaurdService] },
   { path: 'createappointment', component: CreateAppointmentComponent, canActivate: [AuthGaurdService] },
-  { path: 'viewpatient/:id', component: ViewPatientComponent }
+  { path: 'viewpatient/:id', component: CreatepatientComponent, data: { mode: 'view' } }
 
 ]
 
@@ -85,20 +87,19 @@ const routes: Routes = [
     DocdashComponent,
     AdmindashComponent,
     CreatepatientComponent,
-    UpdatePatientComponent,
     MedicineListComponent,
     CreatemedicineComponent,
     UpdateMedicineComponent,
     AppointmentListComponent,
     CreateAppointmentComponent,
-    ViewPatientComponent,
     // Intake section components
     PatientInfoSectionComponent,
     MedicalHistorySectionComponent,
     InsuranceSectionComponent,
     PhysicianSectionComponent,
     PrescriptionSectionComponent,
-    ConsentSectionComponent
+    ConsentSectionComponent,
+    LoaderComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -118,7 +119,9 @@ const routes: Routes = [
     InputTextareaModule,
     RadioButtonModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

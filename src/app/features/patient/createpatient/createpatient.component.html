@@ -18,16 +18,16 @@
     <!-- Page header -->
     <div class="intake-page-header">
       <div>
-        <h2 class="intake-title">New Patient Intake Form</h2>
-        <p class="intake-subtitle">Fill all required sections to register a new patient case.</p>
+        <h2 class="intake-title">{{ pageTitle }}</h2>
+        <p class="intake-subtitle">{{ pageSubtitle }}</p>
       </div>
       <button mat-stroked-button class="btn btn-outline-back" type="button" (click)="goBackToDashboard()">
         &#8592; Back
       </button>
     </div>
 
-    <!-- ── Drug Selection ─────────────────────────────── -->
-    <div class="intake-card mb-4">
+    <!-- ── Drug Selection (only in create mode) ─────────────────── -->
+    <div *ngIf="isCreateMode" class="intake-card mb-4">
       <div class="intake-card-body">
         <div *ngIf="selectedCaseType" class="mb-3">
           <strong>Case Type:</strong> {{ selectedCaseType }}
@@ -55,31 +55,47 @@
       </div>
     </div>
 
-    <!-- FORM (shown only after a drug is selected) -->
-    <form *ngIf="selectedDrugId" [formGroup]="patientForm" novalidate>
+    <!-- ── Read-only case/drug info (view/edit mode) ───────────── -->
+    <div *ngIf="!isCreateMode" class="intake-card mb-4">
+      <div class="intake-card-body">
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label class="field-label"><strong>Case Type:</strong></label>
+            <span class="ms-2">{{ selectedCaseType || '-' }}</span>
+          </div>
+          <div class="col-md-4 form-group">
+            <label class="field-label"><strong>Selected Drug:</strong></label>
+            <span class="ms-2">{{ getSelectedDrugName() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM (shown after drug selected in create, or always in view/edit) -->
+    <form *ngIf="selectedDrugId || !isCreateMode" [formGroup]="patientForm" novalidate>
 
       <!-- 1. Patient Information -->
-      <app-patient-info-section [patientForm]="patientForm"></app-patient-info-section>
+      <app-patient-info-section [patientForm]="patientForm" [readonly]="isViewMode"></app-patient-info-section>
 
       <!-- 2. Medical History -->
-      <app-medical-history-section [patientForm]="patientForm"></app-medical-history-section>
+      <app-medical-history-section [patientForm]="patientForm" [readonly]="isViewMode"></app-medical-history-section>
 
       <!-- 3. Insurance Details -->
-      <app-insurance-section [patientForm]="patientForm"></app-insurance-section>
+      <app-insurance-section [patientForm]="patientForm" [readonly]="isViewMode"></app-insurance-section>
 
       <!-- 4. Physician -->
-      <app-physician-section [patientForm]="patientForm"></app-physician-section>
+      <app-physician-section [patientForm]="patientForm" [readonly]="isViewMode"></app-physician-section>
 
       <!-- 5. Prescription -->
-      <app-prescription-section [patientForm]="patientForm"></app-prescription-section>
+      <app-prescription-section [patientForm]="patientForm" [readonly]="isViewMode"></app-prescription-section>
 
       <!-- 6. Consent for Treatment -->
-      <app-consent-section [patientForm]="patientForm"></app-consent-section>
+      <app-consent-section [patientForm]="patientForm" [readonly]="isViewMode"></app-consent-section>
 
-      <!-- ── Submit row ──────────────────────────────── -->
-      <div class="intake-submit-row">
+      <!-- ── Submit row (hidden in view mode) ──────────────────── -->
+      <div *ngIf="!isViewMode" class="intake-submit-row">
         <button mat-raised-button color="primary" class="btn btn-intake-submit" type="button" (click)="onSubmit()">
-          &#10003;&nbsp; Submit Patient Record
+          &#10003;&nbsp; {{ isEditMode ? 'Update' : 'Submit' }}
         </button>
         <button mat-stroked-button class="btn btn-intake-reset" type="button" (click)="patientForm.reset()">
           &#8635;&nbsp; Reset Form

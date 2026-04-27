@@ -11,6 +11,7 @@ import { Drug } from '../drug-selection.service';
 })
 export class InsuranceSectionComponent implements OnInit, OnDestroy {
   @Input() patientForm!: FormGroup;
+  @Input() readonly = false;
 
   selectedDrug: Drug | null = null;
   private drugSub!: Subscription;

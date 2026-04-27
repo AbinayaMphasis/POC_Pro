@@ -12,6 +12,7 @@ import { ConsentEntry, getConsentByDrugAndType } from '../../../../shared/consta
 })
 export class ConsentSectionComponent implements OnInit, OnDestroy {
   @Input() patientForm!: FormGroup;
+  @Input() readonly = false;
 
   selectedDrug: Drug | null = null;
   patientConsent: ConsentEntry | undefined;

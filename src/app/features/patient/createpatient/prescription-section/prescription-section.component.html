@@ -4,8 +4,8 @@
   </div>
   <div class="section-card-body">
 
-    <!-- ── Entry form ─────────────────────────────────────── -->
-    <div class="rx-entry-card" [formGroup]="entryForm">
+    <!-- ── Entry form (hidden in readonly mode) ──────────── -->
+    <div *ngIf="!readonly" class="rx-entry-card" [formGroup]="entryForm">
       <div class="rx-entry-title">
         {{ editingIndex >= 0 ? 'Edit Prescription #' + (editingIndex + 1) : 'Add Prescription' }}
       </div>
@@ -100,7 +100,7 @@
             <th>Duration</th>
             <th>Signed</th>
             <th>Date Signed</th>
-            <th class="text-center">Actions</th>
+            <th *ngIf="!readonly" class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -117,7 +117,7 @@
               <span *ngIf="row.value.prescriberSigned === null"  class="badge rx-badge-na">—</span>
             </td>
             <td>{{ row.value.dateSigned || '—' }}</td>
-            <td class="text-center">
+            <td *ngIf="!readonly" class="text-center">
               <button type="button" class="btn btn-rx-edit" (click)="editRow(i)" title="Edit">
                 Edit
               </button>
@@ -131,7 +131,7 @@
     </div>
 
     <div *ngIf="rows.length === 0" class="rx-empty-hint">
-      No prescriptions added yet. Use the form above to add one.
+      {{ readonly ? 'No prescriptions recorded.' : 'No prescriptions added yet. Use the form above to add one.' }}
     </div>
 
   </div>
