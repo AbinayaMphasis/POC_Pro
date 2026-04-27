@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Drug } from './drug.model';
+
+export interface Drug {
+  drugId: string;
+  name: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class DrugSelectionService {

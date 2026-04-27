@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CustomValidators } from '../../../../shared/validators/custom-validators.service';
 import { DrugSelectionService } from '../drug-selection.service';
-import { Drug } from '../drug.model';
+import { Drug } from '../drug-selection.service';
 
 @Component({
   selector: 'app-prescription-section',

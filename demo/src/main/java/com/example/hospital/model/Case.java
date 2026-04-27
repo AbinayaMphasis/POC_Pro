@@ -54,6 +54,11 @@ public class Case {
 	@JoinColumn(name = "physician_id", referencedColumnName = "id")
 	private PhysicianInfo physician;
 
+	// ── Prescriptions ─────────────────────────────────────────
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "case_id")
+	private List<Prescription> prescriptions;
+
 	// ── Consent for Treatment ──────────────────────────────────
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id")

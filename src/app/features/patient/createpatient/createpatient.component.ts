@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Patient } from '../../../shared/models/patient';
 import { PatientService } from '../../../shared/services/patient.service';
 import { CustomValidators } from '../../../shared/validators/custom-validators.service';
-import { DrugSelectionService } from './drug-selection.service';
-import { Drug, DRUGS } from './drug.model';
+import { Drug, DrugSelectionService } from './drug-selection.service';
+import { LookupService } from '../../../shared/services/lookup.service';
 import { IntakeConfigService } from '../../../shared/services/intake-config.service';
 import { Subscription } from 'rxjs';
 import { CaseTypeSelectionService } from './case-type-selection.service';
@@ -20,8 +20,8 @@ export class CreatepatientComponent implements OnInit {
   patientForm!: FormGroup;
   submitted = false;
 
-  readonly drugs: Drug[] = DRUGS;
-  availableDrugs: Drug[] = DRUGS;
+  drugs: Drug[] = [];
+  availableDrugs: Drug[] = [];
   selectedCaseType = '';
   selectedDrugId: string | null = null;
   private caseTypeSub?: Subscription;
@@ -32,6 +32,7 @@ export class CreatepatientComponent implements OnInit {
     private fb: FormBuilder,
     public drugSelectionService: DrugSelectionService,
     private caseTypeSelectionService: CaseTypeSelectionService,
+    private lookupService: LookupService,
     private intakeConfigService: IntakeConfigService
   ) {}
 
@@ -95,8 +96,10 @@ export class CreatepatientComponent implements OnInit {
       })
 
     });
+    this.loadDrugs();
     this.caseTypeSub = this.caseTypeSelectionService.selectedCaseType$.subscribe(caseType => {
-      this.applyCaseTypeFilter(caseType);
+      this.selectedCaseType = caseType;
+      this.filterDrugsByCaseType();
     });
   }
 
@@ -104,18 +107,35 @@ export class CreatepatientComponent implements OnInit {
     this.caseTypeSub?.unsubscribe();
   }
 
-  private applyCaseTypeFilter(caseType: string): void {
-    this.selectedCaseType = caseType;
+  private loadDrugs(): void {
+    this.lookupService.getLookupData(['Drugs']).subscribe({
+      next: (data) => {
+        const rawDrugs = data['Drugs'] || [];
+        this.drugs = rawDrugs
+          .filter((d: any) => d.isActive !== false)
+          .map((d: any) => ({ drugId: String(d.drugPkId), name: d.name }));
+        this.filterDrugsByCaseType();
+      },
+      error: (err) => {
+        console.error('Failed to load drugs', err);
+        this.drugs = [];
+        this.availableDrugs = [];
+      }
+    });
+  }
 
-    if (!caseType) {
+  private filterDrugsByCaseType(): void {
+    if (!this.selectedCaseType) {
       this.availableDrugs = this.drugs;
       return;
     }
 
-    const drugNames = this.intakeConfigService.getDrugNamesByCaseType(caseType);
-    const allowedDrugNames = new Set(drugNames);
+    const allowedDrugNames = new Set(
+      this.intakeConfigService.getDrugNamesByCaseType(this.selectedCaseType)
+    );
     this.availableDrugs = this.drugs.filter(drug => allowedDrugNames.has(drug.name));
 
+    // Clear selection if the currently selected drug is no longer available
     if (!this.availableDrugs.some(drug => drug.drugId === this.selectedDrugId)) {
       this.selectedDrugId = null;
       this.drugSelectionService.clearDrug();
@@ -173,6 +193,14 @@ export class CreatepatientComponent implements OnInit {
         contactNumber: ph?.contactNumber,
         email: ph?.email
       },
+      prescriptions: (raw.prescriptions || []).map((rx: any) => ({
+        medicationName: rx.medicationName,
+        dosage: rx.dosage,
+        frequency: rx.frequency,
+        duration: rx.duration,
+        prescriberSigned: rx.prescriberSigned,
+        dateSigned: rx.dateSigned ? new Date(rx.dateSigned).toISOString().split('T')[0] : undefined
+      })),
       consentForTreatment: [
         {
           consentType: 1,

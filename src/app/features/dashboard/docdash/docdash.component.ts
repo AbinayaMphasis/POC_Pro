@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../auth/authentication.service';
 import { Patient } from '../../../shared/models/patient';
 import { PatientService } from '../../../shared/services/patient.service';
-import { IntakeConfigService } from '../../../shared/services/intake-config.service';
+import { LookupService } from '../../../shared/services/lookup.service';
 import { CaseTypeSelectionService } from '../../patient/createpatient/case-type-selection.service';
 
 
@@ -23,11 +23,26 @@ export class DocdashComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private caseTypeSelectionService: CaseTypeSelectionService,
-    private intakeConfigService: IntakeConfigService) { }
+    private lookupService: LookupService) { }
 
   ngOnInit(): void {
     this.getPatients();
-    this.caseTypes = this.intakeConfigService.getCaseTypes();
+    this.loadServiceTypes();
+  }
+
+  private loadServiceTypes(): void {
+    this.lookupService.getLookupData(['ServiceType']).subscribe({
+      next: (data) => {
+        const serviceTypes = data['ServiceType'] || [];
+        this.caseTypes = serviceTypes
+          .filter((st: any) => st.isActive !== false)
+          .map((st: any) => st.value);
+      },
+      error: (err) => {
+        console.error('Failed to load service types', err);
+        this.caseTypes = [];
+      }
+    });
   }
 
   private getPatients(){

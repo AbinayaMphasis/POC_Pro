@@ -1,7 +1,7 @@
 {
     "caseTypeByDrug": {
-        "Type1": ["DrugA", "DrugB"],
-        "Type2": ["DrugB", "DrugC"],
-        "Type3": ["DrugA", "DrugB", "DrugC"]
+        "TypeOne": ["DrugOne", "DrugTwo"],
+        "TypeTwo": ["DrugTwo", "DrugThree"],
+        "TypeThree": ["DrugOne", "DrugTwo", "DrugThree", "DrugFour"]
     }
 }

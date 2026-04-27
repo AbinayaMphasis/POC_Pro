@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DrugSelectionService } from '../drug-selection.service';
-import { Drug } from '../drug.model';
+import { Drug } from '../drug-selection.service';
 
 @Component({
   selector: 'app-physician-section',

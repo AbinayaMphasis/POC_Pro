@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DrugSelectionService } from '../drug-selection.service';
-import { Drug } from '../drug.model';
+import { Drug } from '../drug-selection.service';
 import { ConsentEntry, getConsentByDrugAndType } from '../../../../shared/constants/consent-content';
 
 @Component({
@@ -33,8 +33,8 @@ export class ConsentSectionComponent implements OnInit, OnDestroy {
 
   private updateConsentContent(drug: Drug | null): void {
     if (drug) {
-      this.patientConsent = getConsentByDrugAndType(drug.drugId, 'patient');
-      this.physicianConsent = getConsentByDrugAndType(drug.drugId, 'physician');
+      this.patientConsent = getConsentByDrugAndType(drug.name, 'patient');
+      this.physicianConsent = getConsentByDrugAndType(drug.name, 'physician');
     } else {
       this.patientConsent = undefined;
       this.physicianConsent = undefined;

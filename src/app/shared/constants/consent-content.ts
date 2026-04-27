@@ -6,9 +6,9 @@ export { ConsentEntry, AllConsents };
  * Get a specific consent (patient or physician) for a drug.
  */
 export function getConsentByDrugAndType(
-  drugId: string,
+  drugName: string,
   type: 'patient' | 'physician'
 ): ConsentEntry | undefined {
-  return AllConsents.find(c => c.drugId === drugId && c.type === type);
+  return AllConsents.find(c => c.drugName === drugName && c.type === type);
 }
 

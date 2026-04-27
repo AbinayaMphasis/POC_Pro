@@ -43,6 +43,15 @@ export interface PhysicianInfo {
     email?: string;
 }
 
+export interface Prescription {
+    medicationName?: string;
+    dosage?: string;
+    frequency?: string;
+    duration?: string;
+    prescriberSigned?: boolean;
+    dateSigned?: string;
+}
+
 export interface ConsentForTreatment {
     id?: number;
     consentType?: number;  // 1 = Patient Consent, 2 = Physician Consent
@@ -58,5 +67,6 @@ export class Patient {
     medicalHistory?: MedicalHistory;
     insuranceDetails?: InsuranceDetails;
     physician?: PhysicianInfo;
+    prescriptions?: Prescription[];
     consentForTreatment?: ConsentForTreatment[];
 }
