@@ -20,11 +20,13 @@ public class InsuranceDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
+    @Column(name = "Provider")
     private String provider;
+    @Column(name = "PolicyNumber")
     private String policyNumber;
-
-    @Column(length = 1000)
+    @Column(name = "CoverageDetails", length = 1000)
     private String coverageDetails;
 }

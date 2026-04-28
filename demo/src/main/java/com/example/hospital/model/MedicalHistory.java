@@ -20,11 +20,13 @@ public class MedicalHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
+    @Column(name = "Allergies")
     private String allergies;
+    @Column(name = "CurrentMedications")
     private String currentMedications;
-
-    @Column(length = 1000)
+    @Column(name = "DrugSpecificHistory", length = 1000)
     private String drugSpecificHistory;
 }

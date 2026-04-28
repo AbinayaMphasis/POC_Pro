@@ -58,7 +58,7 @@ public class PatientController {
 		patient.setInsuranceDetails(patientDetails.getInsuranceDetails());
 		patient.setPhysician(patientDetails.getPhysician());
 		patient.setPrescriptions(patientDetails.getPrescriptions());
-		patient.setConsentForTreatment(patientDetails.getConsentForTreatment());
+		patient.setConsents(patientDetails.getConsents());
 
 		Case updatedPatient = patientRepository.save(patient);
 		return ResponseEntity.ok(updatedPatient);

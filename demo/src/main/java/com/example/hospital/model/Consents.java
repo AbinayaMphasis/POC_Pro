@@ -1,5 +1,6 @@
 package com.example.hospital.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,11 +20,14 @@ public class Consents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
     // 1 = Patient Consent, 2 = Physician Consent
+    @Column(name = "ConsentType")
     private Integer consentType;
-
+    @Column(name = "ConsentGiven")
     private Boolean consentGiven;
+    @Column(name = "DateOfConsent")
     private String dateOfConsent;
 }

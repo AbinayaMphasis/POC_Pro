@@ -1,5 +1,6 @@
 package com.example.hospital.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,12 +20,19 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
-    private String street1;
+    @Column(name = "Street")
+    private String street;
+    @Column(name = "Apt")
     private String apt;
+    @Column(name = "City")
     private String city;
+    @Column(name = "County")
     private String county;
+    @Column(name = "State")
     private String state;
+    @Column(name = "Zip")
     private String zip;
 }

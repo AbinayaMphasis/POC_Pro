@@ -1,5 +1,6 @@
 package com.example.hospital.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +20,15 @@ public class AlternateContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
+    @Column(name = "AltContactName")
     private String altContactName;
+    @Column(name = "Relationship")
     private String relationship;
+    @Column(name = "AltContactNumber")
     private String altContactNumber;
+    @Column(name = "AltContactEmail")
     private String altContactEmail;
 }

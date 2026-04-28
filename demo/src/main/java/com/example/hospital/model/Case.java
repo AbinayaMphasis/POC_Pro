@@ -26,41 +26,42 @@ public class Case {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "Id")
 	private long id;
 
-	@Column(name = "selected_drug_id")
+	@Column(name = "DrugId")
 	private String selectedDrugId;
 
-	@Column(name = "case_type")
+	@Column(name = "CaseType")
 	private String caseType;
 
 	// ── Patient Information ────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "patient_info_id", referencedColumnName = "id")
+	@JoinColumn(name = "PatientInfoId", referencedColumnName = "Id")
 	private Patient patientInfo;
 
 	// ── Medical History ────────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "medical_history_id", referencedColumnName = "id")
+	@JoinColumn(name = "MedicalHistoryId", referencedColumnName = "Id")
 	private MedicalHistory medicalHistory;
 
 	// ── Insurance Details ──────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "insurance_details_id", referencedColumnName = "id")
+	@JoinColumn(name = "InsuranceDetailsId", referencedColumnName = "Id")
 	private InsuranceDetails insuranceDetails;
 
 	// ── Physician ──────────────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "physician_id", referencedColumnName = "id")
+	@JoinColumn(name = "PhysicianId", referencedColumnName = "Id")
 	private PhysicianInfo physician;
 
 	// ── Prescriptions ─────────────────────────────────────────
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_id")
+	@JoinColumn(name = "CaseId")
 	private List<Prescription> prescriptions;
 
 	// ── Consent for Treatment ──────────────────────────────────
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "patient_id")
-	private List<Consents> consentForTreatment;
+	@JoinColumn(name = "ConsentId")
+	private List<Consents> consents;
 }

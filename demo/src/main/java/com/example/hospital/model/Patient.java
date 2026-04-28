@@ -1,6 +1,7 @@
 package com.example.hospital.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,20 +23,27 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Long id;
 
+    @Column(name = "FirstName")
     private String firstName;
+    @Column(name = "LastName")
     private String lastName;
+    @Column(name = "DateOfBirth")
     private String dateOfBirth;
+    @Column(name = "Gender")
     private String gender;
+    @Column(name = "ContactNumber")
     private String contactNumber;
+    @Column(name = "Email")
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "AddressId", referencedColumnName = "Id")
     private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "alternate_contact_id", referencedColumnName = "id")
-    private AlternateContact alternativeContact;
+    @JoinColumn(name = "AlternateContactId", referencedColumnName = "Id")
+    private AlternateContact alternateContact;
 }
