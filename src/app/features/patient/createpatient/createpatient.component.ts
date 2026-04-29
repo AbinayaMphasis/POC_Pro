@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Patient } from '../../../shared/models/patient';
+import { Patient, Source } from '../../../shared/models/patient';
 import { PatientService } from '../../../shared/services/patient.service';
 import { CustomValidators } from '../../../shared/validators/custom-validators.service';
 import { Drug, DrugSelectionService } from './drug-selection.service';
@@ -26,6 +26,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
 
   drugs: Drug[] = [];
   availableDrugs: Drug[] = [];
+  sources: Source[] = [];
   selectedCaseType = '';
   selectedDrugId: string | null = null;
   private caseTypeSub?: Subscription;
@@ -67,6 +68,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
     this.patientId = +this.route.snapshot.params['id'];
 
     this.buildForm();
+    this.loadSources();
     this.loadDrugs();
 
     if (this.isCreateMode) {
@@ -95,16 +97,17 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         dateOfBirth:   ['', [Validators.required, CustomValidators.noFutureDate]],
         gender:        ['', Validators.required],
         contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        sourceId:      [null],
         email:         ['', Validators.email],
         address: this.fb.group({
-          street1: [''],
+          street: [''],
           apt:     [''],
           city:    [''],
           county:  [''],
           state:   [''],
           zip:     ['', Validators.pattern('^[0-9]{5}(-[0-9]{4})?$')]
         }),
-        alternativeContact: this.fb.group({
+        alternateContact: this.fb.group({
           name:          [''],
           relationship:  [''],
           contactNumber: [''],
@@ -137,7 +140,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
       prescriptions: this.fb.array([]),
 
       // ── Consent for Treatment ────────────────────────────────────
-      consentForTreatment: this.fb.group({
+      consents: this.fb.group({
         consentGiven:  [null, Validators.required],
         dateOfConsent: ['', [Validators.required, CustomValidators.noFutureDate]],
         physicianConsentGiven: [null, Validators.required],
@@ -162,9 +165,10 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         }
 
         // Map backend patient model to form structure
-        const pi = patient.patientInfo;
+        const pi = patient.patientInfo as any;
         const addr = pi?.address;
-        const alt = pi?.alternativeContact;
+        const alt = pi?.alternateContact;
+        const consentList = (patient as any)?.consents || [];
 
         this.patientForm.patchValue({
           patient: {
@@ -174,20 +178,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
             gender: pi?.gender || '',
             contactNumber: pi?.contactNumber || '',
             email: pi?.email || '',
-            address: {
-              street1: addr?.street1 || '',
-              apt: addr?.apt || '',
-              city: addr?.city || '',
-              county: addr?.county || '',
-              state: addr?.state || '',
-              zip: addr?.zip || ''
-            },
-            alternativeContact: {
-              name: alt?.altContactName || '',
-              relationship: alt?.relationship || '',
-              contactNumber: alt?.altContactNumber || '',
-              email: alt?.altContactEmail || ''
-            }
+            sourceId: pi?.sourceId || null
           },
           medicalHistory: {
             allergies: patient.medicalHistory?.allergies || '',
@@ -204,8 +195,29 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
             contactNumber: patient.physician?.contactNumber || '',
             email: patient.physician?.email || ''
           },
-          consentForTreatment: this.mapConsentsToForm(patient.consentForTreatment || [])
+          consents: this.mapConsentsToForm(consentList)
         });
+
+        // Patch address nested form group separately
+        const patientGroup = this.patientForm.get('patient') as FormGroup;
+        if (patientGroup) {
+          patientGroup.patchValue({
+            address: {
+              street: addr?.street || '',
+              apt: addr?.apt || '',
+              city: addr?.city || '',
+              county: addr?.county || '',
+              state: addr?.state || '',
+              zip: addr?.zip || ''
+            },
+            alternateContact: {
+              name: alt?.name || alt?.name || '',
+              relationship: alt?.relationship || '',
+              contactNumber: alt?.contactNumber || alt?.contactNumber || '',
+              email: alt?.email || alt?.email || ''
+            }
+          });
+        }
 
         // Populate prescriptions FormArray
         const prescriptionsArray = this.patientForm.get('prescriptions') as FormArray;
@@ -246,14 +258,26 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
   }
 
   private mapConsentsToForm(consents: any[]): any {
-    const patientConsent = consents.find((c: any) => c.consentType === 1);
-    const physicianConsent = consents.find((c: any) => c.consentType === 2);
+    const patientConsent = consents.find((c: any) => Number(c.consentType) === 1);
+    const physicianConsent = consents.find((c: any) => Number(c.consentType) === 2);
     return {
-      consentGiven: patientConsent?.consentGiven ?? null,
+      consentGiven: this.toBooleanOrNull(patientConsent?.consentGiven),
       dateOfConsent: patientConsent?.dateOfConsent ? new Date(patientConsent.dateOfConsent) : '',
-      physicianConsentGiven: physicianConsent?.consentGiven ?? null,
+      physicianConsentGiven: this.toBooleanOrNull(physicianConsent?.consentGiven),
       physicianDateOfConsent: physicianConsent?.dateOfConsent ? new Date(physicianConsent.dateOfConsent) : ''
     };
+  }
+
+  private toBooleanOrNull(value: unknown): boolean | null {
+    if (value === true || value === false) {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') { return true; }
+      if (normalized === 'false') { return false; }
+    }
+    return null;
   }
 
   private loadDrugs(): void {
@@ -269,6 +293,19 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         console.error('Failed to load drugs', err);
         this.drugs = [];
         this.availableDrugs = [];
+      }
+    });
+  }
+
+  private loadSources(): void {
+    this.lookupService.getLookupData(['Source']).subscribe({
+      next: (data) => {
+        const rawSources = data['Source'] || [];
+        this.sources = rawSources.filter((s: any) => s.isActive !== false);
+      },
+      error: (err) => {
+        console.error('Failed to load sources', err);
+        this.sources = [];
       }
     });
   }
@@ -296,11 +333,11 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
     const raw = this.patientForm.value;
     const p   = raw.patient;
     const addr = p.address;
-    const alt  = p.alternativeContact;
+    const alt  = p.alternateContact;
     const mh   = raw.medicalHistory;
     const ins  = raw.insuranceDetails;
     const ph   = raw.physician;
-    const con  = raw.consentForTreatment;
+    const con  = raw.consents;
 
     return {
       selectedDrugId: this.selectedDrugId ?? undefined,
@@ -311,20 +348,21 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         dateOfBirth: p.dateOfBirth ? new Date(p.dateOfBirth).toISOString().split('T')[0] : undefined,
         gender: p.gender,
         contactNumber: p.contactNumber,
+        sourceId: p.sourceId || null,
         email: p.email,
         address: {
-          street1: addr?.street1,
+          street: addr?.street,
           apt: addr?.apt,
           city: addr?.city,
           county: addr?.county,
           state: addr?.state,
           zip: addr?.zip
         },
-        alternativeContact: {
-          altContactName: alt?.name,
+        alternateContact: {
+          name: alt?.name,
           relationship: alt?.relationship,
-          altContactNumber: alt?.contactNumber,
-          altContactEmail: alt?.email
+          contactNumber: alt?.contactNumber,
+          email: alt?.email
         }
       },
       medicalHistory: {
@@ -350,7 +388,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         prescriberSigned: rx.prescriberSigned,
         dateSigned: rx.dateSigned ? new Date(rx.dateSigned).toISOString().split('T')[0] : undefined
       })),
-      consentForTreatment: [
+      consents: [
         {
           consentType: 1,
           consentGiven: con?.consentGiven,

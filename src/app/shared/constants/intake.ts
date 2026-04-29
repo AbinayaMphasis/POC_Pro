@@ -7,14 +7,14 @@ export class Intake {
         contactNumber?: string;
         email?: string;
         address?: {
-            street1?: string;
+            street?: string;
             apt?: string;
             city?: string;
             county?: string;
             state?: string;
             zip?: string;
         };
-        alternativeContact?: {
+        alternateContact?: {
             name?: string;
             relationship?: string;
             contactNumber?: string;
@@ -44,7 +44,7 @@ export class Intake {
         prescriberSigned?: boolean;
         prescriberSignature?: string;
     };
-    consentForTreatment?: {
+    consents?: {
         consentGiven?: boolean;
         dateOfConsent?: string;
         physicianConsentGiven?: boolean;

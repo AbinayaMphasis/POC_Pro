@@ -45,11 +45,11 @@ export class ConsentSectionComponent implements OnInit, OnDestroy {
   readonly maxDate = new Date();
 
   get consentGroup(): FormGroup {
-    return this.patientForm.get('consentForTreatment') as FormGroup;
+    return this.patientForm.get('consents') as FormGroup;
   }
 
   ctrl(name: string): AbstractControl | null {
-    return this.patientForm.get(['consentForTreatment', name]);
+    return this.patientForm.get(['consents', name]);
   }
 
   isInvalid(name: string): boolean {

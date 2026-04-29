@@ -39,6 +39,8 @@ import { AdmindashComponent } from './features/dashboard/admindash/admindash.com
 
 // Patient feature components
 import { CreatepatientComponent } from './features/patient/createpatient/createpatient.component';
+import { UpdatePatientComponent } from './features/patient/update-patient/update-patient.component';
+import { ViewPatientComponent } from './features/patient/view-patient/view-patient.component';
 
 // Medicine feature components
 import { MedicineListComponent } from './features/medicine/medicine-list/medicine-list.component';
@@ -87,6 +89,8 @@ const routes: Routes = [
     DocdashComponent,
     AdmindashComponent,
     CreatepatientComponent,
+    UpdatePatientComponent,
+    ViewPatientComponent,
     MedicineListComponent,
     CreatemedicineComponent,
     UpdateMedicineComponent,

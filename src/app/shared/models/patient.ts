@@ -1,5 +1,5 @@
 export interface Address {
-    street1?: string;
+    street?: string;
     apt?: string;
     city?: string;
     county?: string;
@@ -7,11 +7,17 @@ export interface Address {
     zip?: string;
 }
 
-export interface AlternativeContact {
-    altContactName?: string;
+export interface AlternateContact {
+    name?: string;
     relationship?: string;
-    altContactNumber?: string;
-    altContactEmail?: string;
+    contactNumber?: string;
+    email?: string;
+}
+
+export interface Source {
+    id?: number;
+    value?: string;
+    isActive?: boolean;
 }
 
 export interface PatientInfo {
@@ -22,7 +28,8 @@ export interface PatientInfo {
     contactNumber?: string;
     email?: string;
     address?: Address;
-    alternativeContact?: AlternativeContact;
+    alternateContact?: AlternateContact;
+    sourceId?: number;
 }
 
 export interface MedicalHistory {
@@ -68,5 +75,5 @@ export class Patient {
     insuranceDetails?: InsuranceDetails;
     physician?: PhysicianInfo;
     prescriptions?: Prescription[];
-    consentForTreatment?: ConsentForTreatment[];
+    consents?: ConsentForTreatment[];
 }

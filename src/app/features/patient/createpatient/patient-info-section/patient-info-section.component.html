@@ -83,6 +83,21 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label class="field-label">Source <span class="required">*</span></label>
+        <p-dropdown
+          formControlName="sourceId"
+          [options]="sources"
+          optionLabel="value"
+          optionValue="id"
+          placeholder="Select source"
+          styleClass="full-width sky-prime-control"
+          appendTo="body">
+        </p-dropdown>
+      </div>
+    </div>
+
     <!-- Address Sub-section -->
     <div class="sub-section" [formGroupName]="'address'">
       <div class="sub-section-header">&#127968; Address</div>
@@ -90,7 +105,7 @@
         <div class="col-md-6 form-group">
           <mat-form-field appearance="outline" class="full-width sky-mat-field">
             <mat-label>Street Address</mat-label>
-            <input matInput formControlName="street1" placeholder="e.g. 123 Main St" />
+            <input matInput formControlName="street" placeholder="e.g. 123 Main St" />
           </mat-form-field>
         </div>
         <div class="col-md-3 form-group">
@@ -138,7 +153,7 @@
     </div>
 
     <!-- Alternative Contact Sub-section -->
-    <div class="sub-section" [formGroupName]="'alternativeContact'">
+    <div class="sub-section" [formGroupName]="'alternateContact'">
       <div class="sub-section-header">Alternative / Emergency Contact</div>
       <div class="row">
         <div class="col-md-3 form-group">

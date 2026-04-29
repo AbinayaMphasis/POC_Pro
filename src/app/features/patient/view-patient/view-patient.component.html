@@ -41,7 +41,7 @@
 
 <h6 class="mt-2">Address</h6>
 <div>
-    <label> <b> Street: </b></label> {{patient?.patientInfo?.address?.street1}}
+    <label> <b> Street: </b></label> {{patient?.patientInfo?.address?.street}}
 </div>
 <div>
     <label> <b> Apt: </b></label> {{patient?.patientInfo?.address?.apt}}
@@ -61,16 +61,16 @@
 
 <h6 class="mt-2">Alternative Contact</h6>
 <div>
-    <label> <b> Name: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactName}}
+    <label> <b> Name: </b></label> {{patient?.patientInfo?.alternateContact?.name}}
 </div>
 <div>
-    <label> <b> Relationship: </b></label> {{patient?.patientInfo?.alternativeContact?.relationship}}
+    <label> <b> Relationship: </b></label> {{patient?.patientInfo?.alternateContact?.relationship}}
 </div>
 <div>
-    <label> <b> Contact: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactNumber}}
+    <label> <b> Contact: </b></label> {{patient?.patientInfo?.alternateContact?.contactNumber}}
 </div>
 <div>
-    <label> <b> Email: </b></label> {{patient?.patientInfo?.alternativeContact?.altContactEmail}}
+    <label> <b> Email: </b></label> {{patient?.patientInfo?.alternateContact?.email}}
 </div>
 
 <h5 class="mt-3">Medical History</h5>
@@ -108,16 +108,16 @@
 
 <h5 class="mt-3">Consent</h5>
 <div>
-    <label> <b> Patient Consent: </b></label> {{patient?.consentForTreatment?.[0]?.consentGiven ? 'Yes' : 'No'}}
+    <label> <b> Patient Consent: </b></label> {{patient?.consents?.[0]?.consentGiven ? 'Yes' : 'No'}}
 </div>
 <div>
-    <label> <b> Date of Consent: </b></label> {{patient?.consentForTreatment?.[0]?.dateOfConsent}}
+    <label> <b> Date of Consent: </b></label> {{patient?.consents?.[0]?.dateOfConsent}}
 </div>
 <div>
-    <label> <b> Physician Consent: </b></label> {{patient?.consentForTreatment?.[1]?.consentGiven ? 'Yes' : 'No'}}
+    <label> <b> Physician Consent: </b></label> {{patient?.consents?.[1]?.consentGiven ? 'Yes' : 'No'}}
 </div>
 <div>
-    <label> <b> Physician Date of Consent: </b></label> {{patient?.consentForTreatment?.[1]?.dateOfConsent}}
+    <label> <b> Physician Date of Consent: </b></label> {{patient?.consents?.[1]?.dateOfConsent}}
 </div>
 
 </div>

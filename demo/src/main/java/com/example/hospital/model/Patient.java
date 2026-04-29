@@ -46,4 +46,7 @@ public class Patient {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "AlternateContactId", referencedColumnName = "Id")
     private AlternateContact alternateContact;
+
+    @Column(name = "SourceId")
+    private Long sourceId;
 }

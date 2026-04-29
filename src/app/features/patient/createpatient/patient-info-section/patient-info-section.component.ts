@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DrugSelectionService } from '../drug-selection.service';
 import { Drug } from '../drug-selection.service';
+import { Source } from './../../../../shared/models/patient';
 
 @Component({
   selector: 'app-patient-info-section',
@@ -12,6 +13,7 @@ import { Drug } from '../drug-selection.service';
 export class PatientInfoSectionComponent implements OnInit, OnDestroy {
   @Input() patientForm!: FormGroup;
   @Input() readonly = false;
+  @Input() sources: Source[] = [];
 
   readonly maxDate = new Date();
   readonly stateOptions = [
@@ -41,7 +43,7 @@ export class PatientInfoSectionComponent implements OnInit, OnDestroy {
   }
 
   get altContactGroup(): FormGroup {
-    return this.patientGroup?.get('alternativeContact') as FormGroup;
+    return this.patientGroup?.get('alternateContact') as FormGroup;
   }
 
   get patientNameLengthInvalid(): boolean | undefined {

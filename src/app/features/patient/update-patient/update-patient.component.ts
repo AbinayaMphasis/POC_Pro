@@ -37,18 +37,18 @@ export class UpdatePatientComponent implements OnInit {
         contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
         email:         ['', Validators.email],
         address: this.fb.group({
-          street1: [''],
+          street: [''],
           apt:     [''],
           city:    [''],
           county:  [''],
           state:   [''],
           zip:     ['']
         }),
-        alternativeContact: this.fb.group({
-          altContactName:   [''],
-          relationship:     [''],
-          altContactNumber: [''],
-          altContactEmail:  ['', Validators.email]
+        alternateContact: this.fb.group({
+          name:          [''],
+          relationship:  [''],
+          contactNumber: [''],
+          email:         ['', Validators.email]
         })
       }),
 
@@ -70,13 +70,13 @@ export class UpdatePatientComponent implements OnInit {
         email:         ['', Validators.email]
       }),
 
-      consentForTreatment: this.fb.group({
+      consents: this.fb.group({
         consentGiven:          [null],
         dateOfConsent:         [''],
         physicianConsentGiven: [null],
         physicianDateOfConsent: ['']
       })
-      // Note: consentForTreatment is an array in the backend.
+      // Note: consents is an array in the backend.
       // patchValue maps from array; onSubmit rebuilds the array.
     });
 
@@ -84,11 +84,11 @@ export class UpdatePatientComponent implements OnInit {
     this.patientService.getPatientById(this.id).subscribe(
       data => {
         // Map consent array back to flat form fields
-        const consents = (data as any).consentForTreatment || [];
+        const consents = (data as any).consents || [];
         const patientConsent = consents.find((c: any) => c.consentType === 1);
         const physicianConsent = consents.find((c: any) => c.consentType === 2);
 
-        const patchData = { ...data, consentForTreatment: {
+        const patchData = { ...data, consents: {
           consentGiven: patientConsent?.consentGiven ?? null,
           dateOfConsent: patientConsent?.dateOfConsent ?? '',
           physicianConsentGiven: physicianConsent?.consentGiven ?? null,
@@ -104,10 +104,10 @@ export class UpdatePatientComponent implements OnInit {
     this.submitted = true;
     if (this.patientForm.valid) {
       const raw = this.patientForm.value;
-      const con = raw.consentForTreatment;
+      const con = raw.consents;
       const patient: Patient = {
         ...raw,
-        consentForTreatment: [
+        consents: [
           { consentType: 1, consentGiven: con.consentGiven, dateOfConsent: con.dateOfConsent },
           { consentType: 2, consentGiven: con.physicianConsentGiven, dateOfConsent: con.physicianDateOfConsent }
         ]

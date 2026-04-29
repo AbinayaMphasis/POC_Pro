@@ -37,7 +37,7 @@ public class Case {
 
 	// ── Patient Information ────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PatientInfoId", referencedColumnName = "Id")
+	@JoinColumn(name = "PatientId", referencedColumnName = "Id")
 	private Patient patientInfo;
 
 	// ── Medical History ────────────────────────────────────────

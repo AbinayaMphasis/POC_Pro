@@ -75,7 +75,7 @@
     <form *ngIf="selectedDrugId || !isCreateMode" [formGroup]="patientForm" novalidate>
 
       <!-- 1. Patient Information -->
-      <app-patient-info-section [patientForm]="patientForm" [readonly]="isViewMode"></app-patient-info-section>
+      <app-patient-info-section [patientForm]="patientForm" [readonly]="isViewMode" [sources]="sources"></app-patient-info-section>
 
       <!-- 2. Medical History -->
       <app-medical-history-section [patientForm]="patientForm" [readonly]="isViewMode"></app-medical-history-section>

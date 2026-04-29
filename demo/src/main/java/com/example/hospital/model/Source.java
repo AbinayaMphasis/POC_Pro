@@ -15,20 +15,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "AlternateContact")
-public class AlternateContact {
+@Table(schema = "lookups", name = "Source")
+public class Source {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
 
-    @Column(name = "Name")
-    private String name;
-    @Column(name = "Relationship")
-    private String relationship;
-    @Column(name = "ContactNumber")
-    private String contactNumber;
-    @Column(name = "Email")
-    private String email;
+    @Column(name = "Value")
+    private String value;
+
+    @Column(name = "IsActive")
+    private Boolean isActive;
+
 }
