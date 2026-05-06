@@ -1,5 +1,78 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* ===== Portal Dialog Styles ===== */
+.filter-dialog-title,
+.columns-dialog-title {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  color: #0277bd !important;
+  border-bottom: 2px solid #b3e5fc;
+  padding-bottom: 12px !important;
+  margin-bottom: 8px !important;
+}
+
+.filter-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  padding: 8px 0;
+}
+
+.filter-field {
+  width: 100%;
+}
+
+.columns-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.column-checkbox {
+  display: block !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.column-checkbox .mat-checkbox-label {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 0.9rem;
+  color: #37474f;
+}
+
+.select-all-row {
+  padding-bottom: 4px;
+}
+
+.select-all-checkbox .mat-checkbox-label {
+  font-weight: 700 !important;
+  color: #0277bd !important;
+  font-size: 0.9rem;
+}
+
+.columns-divider {
+  border-top: 1px solid #b3e5fc;
+  margin: 8px 0 6px;
+}
+
+.mat-dialog-container {
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.mat-dialog-actions {
+  border-top: 1px solid #e0f7fa;
+  padding: 12px 24px !important;
+  gap: 10px;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.mat-dialog-actions button {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+}
+
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~primeng/resources/themes/lara-light-blue/theme.css";
 @import "~primeng/resources/primeng.min.css";
@@ -34,12 +107,16 @@
 }
 
 .sky-prime-control,
+.p-calendar.sky-prime-control,
+.p-dropdown.sky-prime-control,
 .sky-prime-control .p-calendar,
 .sky-prime-control .p-inputtext,
 .sky-prime-control .p-dropdown {
   width: 100%;
 }
 
+.p-calendar.sky-prime-control,
+.p-dropdown.sky-prime-control,
 .sky-prime-control .p-inputtext,
 .sky-prime-control .p-dropdown,
 .sky-textarea {
@@ -49,7 +126,61 @@
   background-color: #f6f0ff;
 }
 
+.p-calendar.sky-prime-control {
+  display: block;
+}
+
+.p-calendar.sky-prime-control .p-inputtext,
+.p-dropdown.sky-prime-control .p-dropdown-label {
+  color: #2e1a47;
+  background-color: #f6f0ff;
+}
+
+.p-calendar.sky-prime-control .p-inputtext {
+  width: 100%;
+  min-height: 3rem;
+  padding-right: 2.5rem;
+}
+
+.p-calendar.sky-prime-control .p-datepicker-trigger,
+.p-dropdown.sky-prime-control .p-dropdown-trigger {
+  background: #efe6ff;
+  color: #5e35b1;
+  border: none;
+}
+
+.p-dropdown.sky-prime-control {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+}
+
+.p-dropdown.sky-prime-control .p-dropdown-label {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.75rem 0.875rem;
+}
+
+.p-dropdown.sky-prime-control .p-dropdown-trigger-icon,
+.p-calendar.sky-prime-control .p-button .pi {
+  color: #5e35b1;
+}
+
+.p-dropdown-panel,
+.p-datepicker {
+  z-index: 1101 !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item,
+.p-datepicker table td > span,
+.p-datepicker .p-datepicker-header {
+  color: #2e1a47;
+}
+
 .sky-prime-control .p-inputtext:enabled:focus,
+.p-calendar.sky-prime-control .p-inputtext:enabled:focus,
+.p-dropdown.sky-prime-control:not(.p-disabled).p-focus,
 .sky-prime-control .p-dropdown:not(.p-disabled).p-focus,
 .sky-textarea:enabled:focus {
   border-color: #7e57c2;

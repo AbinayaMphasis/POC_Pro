@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.hospital.dto.PortalListDTO;
 import com.example.hospital.model.Case;
 import com.example.hospital.repository.PatientRepository;
+import com.example.hospital.service.PortalService;
 
 @RestController
 @CrossOrigin(allowedHeaders = "*", origins = "*")
@@ -27,6 +29,14 @@ public class PatientController {
 
 	@Autowired
 	private PatientRepository patientRepository;
+
+	@Autowired
+	private PortalService portalService;
+
+	@GetMapping("/cases")
+	public List<PortalListDTO> getCases() {
+		return portalService.getAllCases();
+	}
 
 	@GetMapping("/patients")
 	public List<Case> getAllPatients() {

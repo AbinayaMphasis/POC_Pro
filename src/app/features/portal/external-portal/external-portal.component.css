@@ -1,0 +1,353 @@
+/* ================================================
+   PORTAL – White + Sky-blue theme | Roboto font
+   ================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ---------- NAVBAR ---------- */
+.portal-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0288d1;
+  padding: 0 32px;
+  height: 60px;
+  box-shadow: 0 2px 8px rgba(2, 136, 209, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.portal-brand {
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.4px;
+}
+
+.portal-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.welcome-text {
+  color: #e1f5fe;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+}
+
+.welcome-text strong {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.logout-btn {
+  background-color: #ffffff !important;
+  color: #0277bd !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-radius: 4px !important;
+  padding: 0 20px !important;
+  box-shadow: none !important;
+}
+
+.logout-btn:hover {
+  background-color: #e1f5fe !important;
+}
+
+/* ---------- CONTAINER ---------- */
+.portal-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 28px;
+  background: #ffffff;
+}
+
+/* ---------- DASHBOARD HEADER ---------- */
+.dashboard-header {
+  margin-bottom: 28px;
+  border-bottom: 2px solid #b3e5fc;
+  padding-bottom: 18px;
+}
+
+.dashboard-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #01579b;
+  margin: 0 0 6px;
+}
+
+.dashboard-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #546e7a;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+/* ---------- STAT CARDS ---------- */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #b3e5fc;
+  border-top: 4px solid #0288d1;
+  box-shadow: 0 1px 6px rgba(2, 136, 209, 0.08);
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #0277bd;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: #78909c;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* ---------- TABLE CARD ---------- */
+.table-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #b3e5fc;
+  box-shadow: 0 2px 10px rgba(2, 136, 209, 0.08);
+  overflow: hidden;
+}
+
+/* ---------- TABLE TOOLBAR ---------- */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #f5fbff;
+  border-bottom: 1px solid #b3e5fc;
+}
+
+.table-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #01579b;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-filters {
+  background: #0288d1 !important;
+  color: #ffffff !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  position: relative;
+}
+
+.btn-filters:hover {
+  background: #0277bd !important;
+}
+
+.btn-columns {
+  background: #ffffff !important;
+  color: #0288d1 !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-radius: 4px !important;
+  border: 2px solid #0288d1 !important;
+  box-shadow: none !important;
+}
+
+.btn-columns:hover {
+  background: #e1f5fe !important;
+}
+
+.filter-badge {
+  background: #0277bd;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.68rem;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+/* ---------- ACTIVE FILTERS BAR ---------- */
+.active-filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: #f5fbff;
+  border-bottom: 1px solid #b3e5fc;
+}
+
+.filters-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #0277bd;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #e1f5fe;
+  border: 1px solid #81d4fa;
+  border-radius: 4px;
+  padding: 4px 8px 4px 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.82rem;
+}
+
+.chip-label {
+  color: #01579b;
+  font-weight: 700;
+}
+
+.chip-value {
+  color: #0277bd;
+  font-weight: 400;
+}
+
+.chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  margin-left: 4px;
+  color: #0288d1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.chip-remove:hover {
+  color: #d32f2f;
+}
+
+.reset-btn {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  color: #d32f2f !important;
+  border-color: #d32f2f !important;
+  border-radius: 4px !important;
+  white-space: nowrap;
+}
+
+/* ---------- TABLE ---------- */
+.table-wrapper {
+  overflow-x: auto;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.portal-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.portal-table .mat-header-row {
+  background: #0288d1 !important;
+}
+
+.portal-table .mat-header-cell {
+  color: #ffffff !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem;
+  letter-spacing: 0.3px;
+  border-bottom: none !important;
+  padding: 14px 16px;
+  white-space: nowrap;
+}
+
+.portal-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+
+.portal-table .mat-cell {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.87rem;
+  color: #37474f;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e3f2fd;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f5fbff;
+}
+
+.table-row:hover {
+  background-color: #e1f5fe !important;
+  transition: background 0.15s;
+}
+
+.no-data-row .no-data-cell {
+  text-align: center;
+  padding: 40px;
+  color: #90a4ae;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+
+/* ---------- PAGINATOR ---------- */
+.portal-paginator {
+  border-top: 1px solid #b3e5fc;
+  background: #f5fbff !important;
+  font-family: 'Roboto', sans-serif !important;
+}

@@ -5,10 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +20,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { PrimeNgModule } from './shared/modules/primeng.module';
 
 // Global loader
 import { LoaderComponent } from './shared/components/loader/loader.component';
@@ -54,6 +59,11 @@ import { CreateAppointmentComponent } from './features/appointment/create-appoin
 // Newsfeed
 import { NewsfeedComponent } from './features/newsfeed/newsfeed.component';
 
+// External Portal
+import { ExternalPortalComponent } from './features/portal/external-portal/external-portal.component';
+import { FilterDialogComponent } from './features/portal/external-portal/filter-dialog/filter-dialog.component';
+import { ColumnsDialogComponent } from './features/portal/external-portal/columns-dialog/columns-dialog.component';
+
 // Intake section components (under patient/createpatient/)
 import { PatientInfoSectionComponent } from './features/patient/createpatient/patient-info-section/patient-info-section.component';
 import { MedicalHistorySectionComponent } from './features/patient/createpatient/medical-history-section/medical-history-section.component';
@@ -76,7 +86,8 @@ const routes: Routes = [
   { path: 'updatemedicine/:id', component: UpdateMedicineComponent, canActivate: [AuthGaurdService] },
   { path: 'appointmentlist', component: AppointmentListComponent, canActivate: [AuthGaurdService] },
   { path: 'createappointment', component: CreateAppointmentComponent, canActivate: [AuthGaurdService] },
-  { path: 'viewpatient/:id', component: CreatepatientComponent, data: { mode: 'view' } }
+  { path: 'viewpatient/:id', component: CreatepatientComponent, data: { mode: 'view' } },
+  { path: 'portal', component: ExternalPortalComponent }
 
 ]
 
@@ -103,7 +114,11 @@ const routes: Routes = [
     PhysicianSectionComponent,
     PrescriptionSectionComponent,
     ConsentSectionComponent,
-    LoaderComponent
+    LoaderComponent,
+    // Portal
+    ExternalPortalComponent,
+    FilterDialogComponent,
+    ColumnsDialogComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -118,10 +133,15 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    CalendarModule,
-    DropdownModule,
-    InputTextareaModule,
-    RadioButtonModule
+    PrimeNgModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatChipsModule,
+    MatToolbarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }

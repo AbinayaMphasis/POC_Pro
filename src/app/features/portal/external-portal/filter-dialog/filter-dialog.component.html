@@ -1,0 +1,18 @@
+<h2 mat-dialog-title class="filter-dialog-title">Apply Filters</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="filterForm" class="filter-form">
+    <mat-form-field
+      *ngFor="let col of columns"
+      appearance="outline"
+      class="filter-field">
+      <mat-label>{{ getLabel(col) }}</mat-label>
+      <input matInput [formControlName]="col" [placeholder]="'Filter by ' + getLabel(col)" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="apply()">Apply</button>
+</mat-dialog-actions>

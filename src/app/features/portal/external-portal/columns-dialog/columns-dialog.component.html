@@ -1,0 +1,27 @@
+<h2 mat-dialog-title class="columns-dialog-title">Configure Columns</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="columnsForm" class="columns-form">
+    <div class="select-all-row">
+      <mat-checkbox
+        class="column-checkbox select-all-checkbox"
+        [checked]="selectAll"
+        [indeterminate]="isIndeterminate"
+        (change)="onSelectAllChange($event.checked)">
+        Select All
+      </mat-checkbox>
+    </div>
+    <div class="columns-divider"></div>
+    <mat-checkbox
+      *ngFor="let col of allColumns"
+      [formControlName]="col"
+      class="column-checkbox">
+      {{ getLabel(col) }}
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="apply()">Apply</button>
+</mat-dialog-actions>

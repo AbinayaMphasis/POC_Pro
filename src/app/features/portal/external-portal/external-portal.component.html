@@ -1,0 +1,93 @@
+<!-- ===== NAVBAR ===== -->
+<nav class="portal-navbar">
+  <div class="portal-brand">
+    <span>External Portal</span>
+  </div>
+  <div class="portal-nav-right">
+    <span class="welcome-text">
+      Welcome, <strong>{{ username }}</strong>
+    </span>
+    <button mat-raised-button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="portal-container">
+
+  <!-- Dashboard header -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Dashboard</h1>
+  </div>
+
+  <!-- Stats cards -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">{{ dataSource.data.length }}</div>
+      <div class="stat-label">Total Cases</div>
+    </div>
+  </div>
+
+  <!-- Table card -->
+  <div class="table-card">
+
+    <!-- Toolbar -->
+    <div class="table-toolbar d-flex justify-content-end">
+      <div class="toolbar-actions">
+        <button mat-raised-button class="btn-filters" (click)="openFiltersDialog()">
+          Filters
+          <span *ngIf="activeFilterKeys.length > 0" class="filter-badge">{{ activeFilterKeys.length }}</span>
+        </button>
+        <button mat-raised-button class="btn-columns" (click)="openColumnsDialog()">Columns</button>
+      </div>
+    </div>
+
+    <!-- Active filter chips -->
+    <div class="active-filters-bar" *ngIf="activeFilterKeys.length > 0">
+      <span class="filters-label">Active Filters:</span>
+      <div class="filter-chips">
+        <div class="filter-chip" *ngFor="let key of activeFilterKeys">
+          <span class="chip-label">{{ getFilterLabel(key) }}:</span>
+          <span class="chip-value">{{ activeFilters[key] }}</span>
+          <button class="chip-remove" (click)="removeFilter(key)" title="Remove filter">&#x2715;</button>
+        </div>
+      </div>
+      <button mat-stroked-button class="reset-btn" (click)="resetAllFilters()">Reset All</button>
+    </div>
+
+    <!-- Loading / Error -->
+    <div class="table-wrapper" *ngIf="isLoading" style="text-align:center; padding: 2rem;">
+      Loading cases...
+    </div>
+    <div class="table-wrapper" *ngIf="errorMessage && !isLoading" style="text-align:center; padding: 2rem; color: red;">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Material Table -->
+    <div class="table-wrapper" *ngIf="!isLoading && !errorMessage">
+      <table mat-table [dataSource]="dataSource" matSort class="portal-table">
+
+        <ng-container *ngFor="let col of allColumns" [matColumnDef]="col">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ getFilterLabel(col) }}</th>
+          <td mat-cell *matCellDef="let row">{{ row[col] }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+
+        <tr class="mat-row no-data-row" *matNoDataRow>
+          <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+            No records match the current filters.
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      pageSize="5"
+      showFirstLastButtons
+      class="portal-paginator">
+    </mat-paginator>
+
+  </div>
+</div>
