@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Filter Dashboard</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="form" class="portal-filter-form">
+    <mat-form-field appearance="outline" class="portal-filter-field" *ngFor="let key of filterKeys">
+      <mat-label>{{ data.labels[key] }}</mat-label>
+      <input matInput [formControlName]="key" [placeholder]="'Filter by ' + data.labels[key]" />
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" type="button" (click)="submit()">Submit</button>
+</div>

@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.portal-filter-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+  padding-top: 4px;
+}
+
+.portal-filter-field {
+  width: 100%;
+}
+
+:host ::ng-deep .mat-dialog-title,
+:host ::ng-deep .mat-dialog-actions button {
+  font-family: 'Roboto', sans-serif;
+}
+
+:host ::ng-deep .mat-dialog-title {
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .portal-filter-form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Select Columns</h2>
+
+<div mat-dialog-content class="portal-columns-content">
+    <mat-checkbox [checked]="allSelected" (change)="toggleSelectAll($event.checked)">
+        Select All
+    </mat-checkbox>
+
+    <div class="portal-columns-list">
+        <mat-checkbox *ngFor="let column of columns" [(ngModel)]="column.selected">
+            {{ column.label }}
+        </mat-checkbox>
+    </div>
+</div>
+
+<div mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="button" (click)="submit()">
+        Apply
+    </button>
+</div>

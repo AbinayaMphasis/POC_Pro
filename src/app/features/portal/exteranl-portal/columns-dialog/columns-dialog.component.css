@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.portal-columns-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 4px;
+}
+
+.portal-columns-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+:host ::ng-deep .mat-dialog-title,
+:host ::ng-deep .mat-dialog-actions button,
+:host ::ng-deep .mat-checkbox-label {
+  font-family: 'Roboto', sans-serif;
+}
+
+:host ::ng-deep .mat-dialog-title {
+  font-weight: 700;
+}

@@ -1,0 +1,77 @@
+<div class="portal-page">
+  <mat-toolbar class="portal-toolbar">
+    <div class="portal-brand">External Portal</div>
+    <span class="portal-toolbar-spacer"></span>
+
+    <button mat-stroked-button class="portal-user-button" [matMenuTriggerFor]="userMenu" aria-label="User menu">
+      Portal User
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled>Portal User</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <div class="portal-content">
+    <div class="portal-header-row">
+      <div>
+        <h2 class="portal-title">Case Dashboard</h2>
+        <p class="portal-subtitle">Review external patient case data with filters and configurable columns.</p>
+      </div>
+
+      <div class="portal-actions">
+        <button mat-stroked-button color="primary" type="button" (click)="openFilterDialog()">
+          Filter
+        </button>
+        <button mat-stroked-button color="primary" type="button" (click)="openColumnsDialog()">
+          Columns
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="activeFilters.length" class="portal-filter-summary">
+      <div class="portal-filter-summary-head">
+        <span class="portal-filter-summary-title">Applied Filters</span>
+        <button mat-button color="warn" type="button" (click)="resetFilters()">Reset</button>
+      </div>
+
+      <div class="portal-filter-chips">
+        <div class="portal-filter-chip" *ngFor="let filter of activeFilters">
+          <span class="portal-filter-chip-text">{{ filter.label }}: {{ filter.value }}</span>
+          <button
+            type="button"
+            class="portal-filter-chip-remove"
+            (click)="removeFilter(filter.key)"
+            [attr.aria-label]="'Remove ' + filter.label + ' filter'">
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="portal-table-card">
+      <div class="portal-table-wrapper">
+        <table mat-table [dataSource]="dataSource" matSort class="portal-table">
+          <ng-container *ngFor="let column of displayedColumns; trackBy: trackByColumn" [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ getColumnLabel(column) }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row[column] }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell portal-empty-row" [attr.colspan]="displayedColumns.length">
+              No records match the current filters.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

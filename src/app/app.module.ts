@@ -2,9 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -54,6 +61,11 @@ import { CreateAppointmentComponent } from './features/appointment/create-appoin
 // Newsfeed
 import { NewsfeedComponent } from './features/newsfeed/newsfeed.component';
 
+// Portal
+import { ExteranlPortalComponent } from './features/portal/exteranl-portal/exteranl-portal.component';
+import { FilterDialogComponent } from './features/portal/exteranl-portal/filter-dialog/filter-dialog.component';
+import { ColumnsDialogComponent } from './features/portal/exteranl-portal/columns-dialog/columns-dialog.component';
+
 // Intake section components (under patient/createpatient/)
 import { PatientInfoSectionComponent } from './features/patient/createpatient/patient-info-section/patient-info-section.component';
 import { MedicalHistorySectionComponent } from './features/patient/createpatient/medical-history-section/medical-history-section.component';
@@ -76,7 +88,8 @@ const routes: Routes = [
   { path: 'updatemedicine/:id', component: UpdateMedicineComponent, canActivate: [AuthGaurdService] },
   { path: 'appointmentlist', component: AppointmentListComponent, canActivate: [AuthGaurdService] },
   { path: 'createappointment', component: CreateAppointmentComponent, canActivate: [AuthGaurdService] },
-  { path: 'viewpatient/:id', component: CreatepatientComponent, data: { mode: 'view' } }
+  { path: 'viewpatient/:id', component: CreatepatientComponent, data: { mode: 'view' } },
+  { path: 'portal', component: ExteranlPortalComponent }
 
 ]
 
@@ -96,6 +109,9 @@ const routes: Routes = [
     UpdateMedicineComponent,
     AppointmentListComponent,
     CreateAppointmentComponent,
+    ExteranlPortalComponent,
+    FilterDialogComponent,
+    ColumnsDialogComponent,
     // Intake section components
     PatientInfoSectionComponent,
     MedicalHistorySectionComponent,
@@ -115,9 +131,16 @@ const routes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
     MatRadioModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule,
     CalendarModule,
     DropdownModule,
     InputTextareaModule,

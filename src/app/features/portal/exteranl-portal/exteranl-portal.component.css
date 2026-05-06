@@ -1,0 +1,177 @@
+:host {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.portal-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f8ff 0%, #eef3fb 100%);
+  font-family: 'Roboto', sans-serif;
+}
+
+.portal-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #12395b;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(18, 57, 91, 0.18);
+}
+
+.portal-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.portal-user-button {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.portal-toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.portal-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.portal-header-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.portal-title {
+  margin: 0;
+  color: #12395b;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.portal-subtitle {
+  margin: 6px 0 0;
+  color: #60748a;
+  font-weight: 400;
+}
+
+.portal-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.portal-filter-summary,
+.portal-table-card {
+  background: #fff;
+  border: 1px solid #d9e2ef;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(18, 57, 91, 0.08);
+}
+
+.portal-filter-summary {
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.portal-filter-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.portal-filter-summary-title {
+  color: #12395b;
+  font-weight: 700;
+}
+
+.portal-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.portal-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e9f2ff;
+  border: 1px solid #bfd4f7;
+  color: #12395b;
+  border-radius: 999px;
+  padding: 4px 8px 4px 14px;
+}
+
+.portal-filter-chip-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.portal-filter-chip-remove {
+  width: 28px;
+  height: 28px;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  color: #12395b;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.portal-table-card {
+  overflow: hidden;
+}
+
+.portal-table-wrapper {
+  overflow-x: auto;
+}
+
+.portal-table {
+  width: 100%;
+}
+
+.portal-table .mat-header-cell {
+  background: #f4f8fd;
+  color: #12395b;
+  font-weight: 700;
+}
+
+.portal-table .mat-cell,
+.portal-table .mat-header-cell {
+  padding: 16px;
+  border-bottom-color: #e6edf7;
+  white-space: nowrap;
+  font-family: 'Roboto', sans-serif;
+}
+
+.portal-empty-row {
+  text-align: center;
+  color: #60748a;
+  padding: 24px !important;
+}
+
+@media (max-width: 768px) {
+  .portal-content {
+    padding: 16px;
+  }
+
+  .portal-header-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .portal-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
