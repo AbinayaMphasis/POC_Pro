@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns="https://example.com/hospital/dmn" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" id="definitions_hospitalCoverageStatus" name="HospitalCoverageStatus" namespace="https://example.com/hospital/dmn" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" exporter="Camunda Modeler" exporterVersion="5.46.1">
+  <dmn:description>
+    Sample hospital approval rules based on Service Type, Drug Group, and patient age.
+    Service Type maps to the lookup ServiceType table, Drug Group is a business grouping for the Drugs lookup,
+    and patientAge can be derived from Patient.DateOfBirth.
+  </dmn:description>
+  <dmn:extensionElements />
+  <dmn:inputData id="input_serviceType" name="serviceType">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_serviceType" name="serviceType" typeRef="string" />
+  </dmn:inputData>
+  <dmn:inputData id="input_serviceTypeActive" name="serviceTypeActive">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_serviceTypeActive" name="serviceTypeActive" typeRef="boolean" />
+  </dmn:inputData>
+  <dmn:inputData id="input_drugGroup" name="drugGroup">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_drugGroup" name="drugGroup" typeRef="string" />
+  </dmn:inputData>
+  <dmn:inputData id="input_drugGroupActive" name="drugGroupActive">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_drugGroupActive" name="drugGroupActive" typeRef="boolean" />
+  </dmn:inputData>
+  <dmn:inputData id="input_patientAge" name="patientAge">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_patientAge" name="patientAge" typeRef="number" />
+  </dmn:inputData>
+  <dmn:decision id="decision_coverageStatus" name="Coverage Status Decision">
+    <dmn:extensionElements />
+    <dmn:variable id="variable_coverageStatus" name="Coverage Status Decision" typeRef="string" />
+    <dmn:informationRequirement id="_A3839B29-A166-4154-9E04-426639816495">
+      <dmn:requiredInput href="#input_serviceType" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_5268A9AD-BDD3-4E58-BA40-811D7DCB244D">
+      <dmn:requiredInput href="#input_serviceTypeActive" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_2E13D7E5-9199-475F-B5AF-A4638A25D3E2">
+      <dmn:requiredInput href="#input_drugGroup" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9EA0A162-4392-4CDC-AE55-175003E26B3C">
+      <dmn:requiredInput href="#input_drugGroupActive" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_2E84BEE7-E03A-40EA-8A67-0D91B5546E95">
+      <dmn:requiredInput href="#input_patientAge" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="decisionTable_coverageStatus" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <dmn:input id="inputClause_serviceType">
+        <dmn:inputExpression id="inputExpression_serviceType" typeRef="string">
+          <dmn:text>serviceType</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="inputClause_drugGroup">
+        <dmn:inputExpression id="inputExpression_drugGroup" typeRef="string">
+          <dmn:text>drugGroup</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="inputClause_patientAge">
+        <dmn:inputExpression id="inputExpression_patientAge" typeRef="number">
+          <dmn:text>patientAge</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="InputClause_1v3qzei" label="Request">
+        <dmn:inputExpression id="LiteralExpression_14yh7vg" typeRef="string">
+          <dmn:text>shipmentRequest</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="outputClause_status" />
+      <dmn:annotation name="" />
+      <dmn:rule id="rule_approved">
+        <dmn:description>Approve an active Specialty Care request for an active Biologic drug group when the patient is older than 18.</dmn:description>
+        <dmn:inputEntry id="rule_approved_serviceType">
+          <dmn:text>"SpecialtyCare"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_approved_drugGroup">
+          <dmn:text>"Biologic"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_approved_patientAge">
+          <dmn:text>&gt; 18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="UnaryTests_16agb30">
+          <dmn:text>"Medication"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rule_approved_status">
+          <dmn:text>"approved"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Approve an active Specialty Care request for an active Biologic drug group when the patient is older than 18.</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="rule_denied">
+        <dmn:description>Deny the request when the configured service type and drug group are both inactive.</dmn:description>
+        <dmn:inputEntry id="rule_denied_serviceType">
+          <dmn:text>"SpecialtyCare"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_denied_drugGroup">
+          <dmn:text>"Biologic"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_denied_patientAge">
+          <dmn:text>&lt;18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="UnaryTests_0sc6kpi">
+          <dmn:text>"Medication"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rule_denied_status">
+          <dmn:text>"denied"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Deny the request when the configured service type and drug group are both inactive.</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="rule_pending">
+        <dmn:description>Keep the request pending for an active Outpatient service and active Antibiotic drug group when the patient is 18 or younger.</dmn:description>
+        <dmn:inputEntry id="rule_pending_serviceType">
+          <dmn:text>"Outpatient"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_pending_drugGroup">
+          <dmn:text>"Antibiotic"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rule_pending_patientAge">
+          <dmn:text>= 18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="UnaryTests_13eu82o">
+          <dmn:text>"Medication"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rule_pending_status">
+          <dmn:text>"pending"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Keep the request pending for an active Outpatient service and active Antibiotic drug group when the patient is 18 or younger.</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:textAnnotation id="_0170BAD5-8E74-4F38-9941-2245A251A78A">
+    <dmn:text>TextAnnotation-1</dmn:text>
+  </dmn:textAnnotation>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_5C087DE4-3E6F-4B01-8F27-BCB1B4828958" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="decisionTable_coverageStatus">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-input_serviceType" dmnElementRef="input_serviceType" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="50" y="225" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-input_serviceTypeActive" dmnElementRef="input_serviceTypeActive" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="225" y="225" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-input_drugGroup" dmnElementRef="input_drugGroup" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="400" y="225" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-input_drugGroupActive" dmnElementRef="input_drugGroupActive" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="575" y="225" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-input_patientAge" dmnElementRef="input_patientAge" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="750" y="225" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-decision_coverageStatus" dmnElementRef="decision_coverageStatus" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="400" y="50" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_0170BAD5-8E74-4F38-9941-2245A251A78A" dmnElementRef="_0170BAD5-8E74-4F38-9941-2245A251A78A" isCollapsed="false">
+        <dc:Bounds height="50" width="100" x="12" y="186" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_A3839B29-A166-4154-9E04-426639816495" dmnElementRef="_A3839B29-A166-4154-9E04-426639816495">
+        <di:waypoint x="100" y="250" />
+        <di:waypoint x="450" y="75" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_5268A9AD-BDD3-4E58-BA40-811D7DCB244D" dmnElementRef="_5268A9AD-BDD3-4E58-BA40-811D7DCB244D">
+        <di:waypoint x="275" y="250" />
+        <di:waypoint x="450" y="75" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_2E13D7E5-9199-475F-B5AF-A4638A25D3E2" dmnElementRef="_2E13D7E5-9199-475F-B5AF-A4638A25D3E2">
+        <di:waypoint x="450" y="250" />
+        <di:waypoint x="450" y="75" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_9EA0A162-4392-4CDC-AE55-175003E26B3C" dmnElementRef="_9EA0A162-4392-4CDC-AE55-175003E26B3C">
+        <di:waypoint x="625" y="250" />
+        <di:waypoint x="450" y="75" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_2E84BEE7-E03A-40EA-8A67-0D91B5546E95" dmnElementRef="_2E84BEE7-E03A-40EA-8A67-0D91B5546E95">
+        <di:waypoint x="800" y="250" />
+        <di:waypoint x="450" y="75" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

@@ -153,6 +153,10 @@ export class ExteranlPortalComponent implements OnInit, AfterViewInit {
     return this.columnOptions.find(option => option.key === column)?.label || column;
   }
 
+  get caseCount(): number {
+    return this.dataSource.filteredData.length;
+  }
+
   trackByColumn(_: number, column: string): string {
     return column;
   }
