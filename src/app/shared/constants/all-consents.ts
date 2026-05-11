@@ -12,7 +12,7 @@ export const AllConsents: ConsentEntry[] = [
       <p>
         I, the patient (or authorized representative), hereby voluntarily consent to the
         administration of <strong>DrugOne</strong> as part of my treatment plan at
-        <strong>Apollo Hospitals</strong>. I understand that:
+        <strong>Health Centers</strong>. I understand that:
       </p>
       <ul>
         <li>DrugOne is prescribed to manage my diagnosed condition and its expected benefits have been explained to me.</li>
@@ -55,7 +55,7 @@ export const AllConsents: ConsentEntry[] = [
       <p>
         I, the patient (or authorized representative), hereby voluntarily consent to the
         administration of <strong>DrugTwo</strong> as part of my treatment plan at
-        <strong>Apollo Hospitals</strong>. I understand that:
+        <strong>Health Centers</strong>. I understand that:
       </p>
       <ul>
         <li>DrugTwo is an injectable medication and will be administered under clinical supervision.</li>

@@ -70,10 +70,10 @@
       <dmn:rule id="rule_approved">
         <dmn:description>Approve an active Specialty Care request for an active Biologic drug group when the patient is older than 18.</dmn:description>
         <dmn:inputEntry id="rule_approved_serviceType">
-          <dmn:text>"SpecialtyCare"</dmn:text>
+          <dmn:text>"TypeOne","TypeTwo"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_approved_drugGroup">
-          <dmn:text>"Biologic"</dmn:text>
+          <dmn:text>"DrugOne"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_approved_patientAge">
           <dmn:text>&gt; 18</dmn:text>
@@ -91,10 +91,10 @@
       <dmn:rule id="rule_denied">
         <dmn:description>Deny the request when the configured service type and drug group are both inactive.</dmn:description>
         <dmn:inputEntry id="rule_denied_serviceType">
-          <dmn:text>"SpecialtyCare"</dmn:text>
+          <dmn:text>"TypeOne"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_denied_drugGroup">
-          <dmn:text>"Biologic"</dmn:text>
+          <dmn:text>"DrugTwo"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_denied_patientAge">
           <dmn:text>&lt;18</dmn:text>
@@ -112,10 +112,10 @@
       <dmn:rule id="rule_pending">
         <dmn:description>Keep the request pending for an active Outpatient service and active Antibiotic drug group when the patient is 18 or younger.</dmn:description>
         <dmn:inputEntry id="rule_pending_serviceType">
-          <dmn:text>"Outpatient"</dmn:text>
+          <dmn:text>"TypeThree"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_pending_drugGroup">
-          <dmn:text>"Antibiotic"</dmn:text>
+          <dmn:text>"DrugTwo"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="rule_pending_patientAge">
           <dmn:text>= 18</dmn:text>
