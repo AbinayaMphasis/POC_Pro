@@ -88,6 +88,18 @@
   align-items: center;
   gap: 8px;
 }
+/* Card header strip */
+.alert-section-card-header {
+  background: linear-gradient(135deg, #ef0b0b 0%, #e41607 100%);
+  color: #ffffff;
+  padding: 12px 20px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
 .section-icon {
   font-size: 1.15rem;
