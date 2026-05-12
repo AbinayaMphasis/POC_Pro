@@ -1,0 +1,6 @@
+{
+  "paExpirationAlerts": {
+    "description": "Prior authorizations expiring in 15 or 30 days for a specific case",
+    "query": "SELECT Id, CasedataId, drugName, endDate, DATEDIFF(day, DATEADD(day, -1, CAST(GETDATE() AS date)), TRY_CONVERT(date, endDate)) AS daysToExpire, CASE WHEN DATEDIFF(day, DATEADD(day, -1, CAST(GETDATE() AS date)), TRY_CONVERT(date, endDate)) = 30 THEN 'EXPIRING_IN_30_DAYS' WHEN DATEDIFF(day, DATEADD(day, -1, CAST(GETDATE() AS date)), TRY_CONVERT(date, endDate)) = 15 THEN 'EXPIRING_IN_15_DAYS' END AS alertType FROM DrugAuthorization WHERE CasedataId = :caseDataId AND TRY_CONVERT(date, endDate) IS NOT NULL AND DATEDIFF(day, DATEADD(day, -1, CAST(GETDATE() AS date)), TRY_CONVERT(date, endDate)) IN (15, 30) ORDER BY TRY_CONVERT(date, endDate), CasedataId"
+  }
+}

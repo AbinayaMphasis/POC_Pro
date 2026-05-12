@@ -66,11 +66,28 @@ export interface ConsentForTreatment {
     dateOfConsent?: string;
 }
 
+export interface DrugAuthorization {
+    caseDataId?: number;
+    startDate?: string;
+    endDate?: string;
+    drugName?: string;
+}
+
+export interface CaseAlert {
+    id?: number;
+    caseDataId?: number;
+    alertType?: string;
+    alertmessage?: string;
+    isActive?: boolean;
+}
+
 export class Patient {
     id?: number;
     selectedDrugId?: string;
     caseType?: string;
     patientInfo?: PatientInfo;
+    drugAuthorization?: DrugAuthorization;
+    caseAlerts?: CaseAlert[];
     medicalHistory?: MedicalHistory;
     insuranceDetails?: InsuranceDetails;
     physician?: PhysicianInfo;

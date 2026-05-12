@@ -71,25 +71,48 @@
       </div>
     </div>
 
+    <!-- ── PA Alerts (view mode only) ────────────────────────── -->
+    <div *ngIf="isViewMode" class="intake-card mb-4 alerts-section">
+      <div class="section-card-header">
+        <span class="section-icon">&#9888;</span> Alerts
+      </div>
+      <div class="alerts-body">
+        <div *ngIf="loadingAlerts" class="pa-alert-loading">Loading alerts...</div>
+        <div *ngIf="!loadingAlerts && alerts.length === 0" class="pa-no-alerts">No alerts.</div>
+        <div *ngFor="let alert of alerts">
+          <div *ngIf="alert.isActive" class="pa-alert-card" [ngClass]="'pa-alert-' + ((alert.alertType || 'general').toLowerCase())">
+            <div class="pa-alert-header">
+              <span class="pa-alert-badge">{{ alert.alertType || 'ALERT' }}</span>
+              <button class="pa-btn-dismiss" (click)="deactivateAlert(alert.id)" title="Dismiss">&times;</button>
+            </div>
+            <p class="pa-alert-message">{{ alert.alertmessage }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- FORM (shown after drug selected in create, or always in view/edit) -->
     <form *ngIf="selectedDrugId || !isCreateMode" [formGroup]="patientForm" novalidate>
 
       <!-- 1. Patient Information -->
       <app-patient-info-section [patientForm]="patientForm" [readonly]="isViewMode" [sources]="sources"></app-patient-info-section>
 
-      <!-- 2. Medical History -->
+      <!-- 2. Drug Authorization -->
+      <app-drug-auth-section [patientForm]="patientForm" [readonly]="isViewMode"></app-drug-auth-section>
+
+      <!-- 3. Medical History -->
       <app-medical-history-section [patientForm]="patientForm" [readonly]="isViewMode"></app-medical-history-section>
 
-      <!-- 3. Insurance Details -->
+      <!-- 4. Insurance Details -->
       <app-insurance-section [patientForm]="patientForm" [readonly]="isViewMode"></app-insurance-section>
 
-      <!-- 4. Physician -->
+      <!-- 5. Physician -->
       <app-physician-section [patientForm]="patientForm" [readonly]="isViewMode"></app-physician-section>
 
-      <!-- 5. Prescription -->
+      <!-- 6. Prescription -->
       <app-prescription-section [patientForm]="patientForm" [readonly]="isViewMode"></app-prescription-section>
 
-      <!-- 6. Consent for Treatment -->
+      <!-- 7. Consent for Treatment -->
       <app-consent-section [patientForm]="patientForm" [readonly]="isViewMode"></app-consent-section>
 
       <!-- ── Submit row (hidden in view mode) ──────────────────── -->

@@ -73,6 +73,7 @@ import { InsuranceSectionComponent } from './features/patient/createpatient/insu
 import { PhysicianSectionComponent } from './features/patient/createpatient/physician-section/physician-section.component';
 import { PrescriptionSectionComponent } from './features/patient/createpatient/prescription-section/prescription-section.component';
 import { ConsentSectionComponent } from './features/patient/createpatient/consent-section/consent-section.component';
+import { DrugAuthSectionComponent } from './features/patient/createpatient/drug-auth-section/drug-auth-section.component';
 
 const routes: Routes = [
   { path: '', component: NewsfeedComponent },
@@ -119,6 +120,7 @@ const routes: Routes = [
     PhysicianSectionComponent,
     PrescriptionSectionComponent,
     ConsentSectionComponent,
+    DrugAuthSectionComponent,
     LoaderComponent
   ],
   imports: [

@@ -12,17 +12,16 @@ import { Patient } from '../../../shared/models/patient';
 export class ViewPatientComponent implements OnInit {
 
   id: number;
-  patient: Patient
+  patient: Patient;
+
   constructor(private route: ActivatedRoute, private patientService: PatientService) { }
 
   ngOnInit(): void {
-
     this.id = this.route.snapshot.params['id'];
     this.patient = new Patient();
-    this.patientService.getPatientById(this.id).subscribe(data => { 
+    this.patientService.getPatientById(this.id).subscribe(data => {
       this.patient = data;
-    } );
+    });
   }
-
 
 }

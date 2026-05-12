@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +41,10 @@ public class Case {
 	@JoinColumn(name = "PatientId", referencedColumnName = "Id")
 	private Patient patientInfo;
 
+	// ── Drug Authorization (external table by CaseDataId) ──────
+	@Transient
+	private DrugAuthorization drugAuthorization;
+
 	// ── Medical History ────────────────────────────────────────
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "MedicalHistoryId", referencedColumnName = "Id")
@@ -64,4 +69,8 @@ public class Case {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ConsentId")
 	private List<Consents> consents;
+
+	// ── Case Alerts (external table by CaseDataId) ─────────────
+	@Transient
+	private List<CaseAlerts> caseAlerts;
 }

@@ -1,0 +1,55 @@
+<div class="section-card" [formGroup]="patientForm">
+  <div class="section-card-header">
+    <span class="section-icon">&#128138;</span> Drug Authorization
+  </div>
+  <div class="section-card-body" [formGroupName]="'drugAuthorization'">
+
+    <div class="row">
+      <div class="col-md-4 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Case Data Id</mat-label>
+          <input matInput type="number" formControlName="caseDataId" placeholder="Case Data Id" [readonly]="readonly" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <label class="field-label">PA Start Date</label>
+        <p-calendar
+          formControlName="startDate"
+          styleClass="full-width sky-prime-control"
+          [showIcon]="true"
+          dateFormat="yy-mm-dd"
+          [readonlyInput]="readonly"
+          appendTo="body">
+        </p-calendar>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <label class="field-label">PA End Date</label>
+        <p-calendar
+          formControlName="endDate"
+          styleClass="full-width sky-prime-control"
+          [showIcon]="true"
+          dateFormat="yy-mm-dd"
+          [readonlyInput]="readonly"
+          appendTo="body">
+        </p-calendar>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <mat-form-field appearance="outline" class="full-width sky-mat-field">
+          <mat-label>Drug Name</mat-label>
+          <input matInput formControlName="drugName" placeholder="Drug name" [readonly]="readonly" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 form-group" *ngIf="selectedDrug">
+        <p class="text-muted mt-2 mb-0">
+          Selected Drug from intake: <strong>{{ selectedDrug.name }}</strong>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

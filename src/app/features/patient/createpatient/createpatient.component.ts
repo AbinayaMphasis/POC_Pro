@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Patient, Source } from '../../../shared/models/patient';
+import { CaseAlert, Patient, Source } from '../../../shared/models/patient';
 import { PatientService } from '../../../shared/services/patient.service';
 import { CustomValidators } from '../../../shared/validators/custom-validators.service';
 import { Drug, DrugSelectionService } from './drug-selection.service';
@@ -30,6 +30,10 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
   selectedCaseType = '';
   selectedDrugId: string | null = null;
   private caseTypeSub?: Subscription;
+
+  alerts: CaseAlert[] = [];
+  loadingAlerts = false;
+  alertsError: string | null = null;
 
   get isViewMode(): boolean { return this.mode === 'view'; }
   get isEditMode(): boolean { return this.mode === 'edit'; }
@@ -115,6 +119,14 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         })
       }, { validators: CustomValidators.patientNameLength() }),
 
+      // ── Drug Authorization ─────────────────────────────────────
+      drugAuthorization: this.fb.group({
+        caseDataId: [null],
+        startDate: [''],
+        endDate: [''],
+        drugName: ['']
+      }),
+
       // ── Medical History ─────────────────────────────────────────
       medicalHistory: this.fb.group({
         allergies:          [''],
@@ -168,6 +180,7 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         const pi = patient.patientInfo as any;
         const addr = pi?.address;
         const alt = pi?.alternateContact;
+        const drugAuth = (patient as any)?.drugAuthorization;
         const consentList = (patient as any)?.consents || [];
 
         this.patientForm.patchValue({
@@ -179,6 +192,12 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
             contactNumber: pi?.contactNumber || '',
             email: pi?.email || '',
             sourceId: pi?.sourceId || null
+          },
+          drugAuthorization: {
+            caseDataId: drugAuth?.caseDataId ?? null,
+            startDate: drugAuth?.startDate ? new Date(drugAuth.startDate) : '',
+            endDate: drugAuth?.endDate ? new Date(drugAuth.endDate) : '',
+            drugName: drugAuth?.drugName || ''
           },
           medicalHistory: {
             allergies: patient.medicalHistory?.allergies || '',
@@ -231,6 +250,13 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
             dateSigned:       [rx.dateSigned ? new Date(rx.dateSigned) : '']
           }));
         });
+
+        // Load caseAlerts in view mode
+        if (this.isViewMode) {
+          this.loadingAlerts = true;
+          this.alerts = (patient.caseAlerts || []).map(a => ({ ...a, isActive: a.isActive !== false }));
+          this.loadingAlerts = false;
+        }
 
         // Disable entire form in view mode
         if (this.isViewMode) {
@@ -335,9 +361,17 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
     const addr = p.address;
     const alt  = p.alternateContact;
     const mh   = raw.medicalHistory;
+    const da   = raw.drugAuthorization;
     const ins  = raw.insuranceDetails;
     const ph   = raw.physician;
     const con  = raw.consents;
+
+    const hasDrugAuthorization = !!da && (
+      da.caseDataId !== null && da.caseDataId !== '' ||
+      !!da.startDate ||
+      !!da.endDate ||
+      !!da.drugName
+    );
 
     return {
       selectedDrugId: this.selectedDrugId ?? undefined,
@@ -370,6 +404,12 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
         currentMedications: mh?.currentMedications,
         drugSpecificHistory: mh?.drugSpecificHistory
       },
+      drugAuthorization: hasDrugAuthorization ? {
+        caseDataId: da?.caseDataId ?? undefined,
+        startDate: da?.startDate ? new Date(da.startDate).toISOString().split('T')[0] : undefined,
+        endDate: da?.endDate ? new Date(da.endDate).toISOString().split('T')[0] : undefined,
+        drugName: da?.drugName
+      } : undefined,
       insuranceDetails: {
         provider: ins?.provider,
         policyNumber: ins?.policyNumber,
@@ -452,6 +492,12 @@ export class CreatepatientComponent implements OnInit, OnDestroy {
     if (!this.selectedDrugId) { return '-'; }
     const drug = this.drugs.find(d => d.drugId === this.selectedDrugId);
     return drug ? drug.name : this.selectedDrugId;
+  }
+
+  deactivateAlert(alertId?: number): void {
+    if (alertId === undefined || alertId === null) { return; }
+    const alert = this.alerts.find(a => a.id === alertId);
+    if (alert) { alert.isActive = false; }
   }
 
   goBackToDashboard(): void {
